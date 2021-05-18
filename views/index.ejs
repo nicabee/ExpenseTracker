@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Expenses Tracker</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+   <body>
+       <section> 
+        <center> <img src="images/umaru2.gif" > </center>
+            <form action="/login" method="POST">
+            <div class="container">
+              <div class="row justify-content-center">
+    
+                <div class="col-12 col-md-8 col-lg-8 col-xl-6">
+                  <div class="row">
+                    <div class="col text-center">
+                      <h3>Fill the form below</h3>
+                    </div>
+                  </div>
+                  <div class="row align-items-center">
+                  </div>
+                  <%  if( typeof(status)!= 'undefined'  ){ %>
+                    <center> <h5 style="color:green"> <div class="alert alert-success"><%= status%> </div></h5></center>
+                   <% }%>
+                   <%  if( typeof(err)!= 'undefined'  ){ %>
+                     <center><h5 style="color:red"><div class="alert alert-danger"> <%= err%></div> </h5></center>
+                   <% }%>
+                  <div class="row align-items-center mt-4">
+                    <div class="col">
+                      <input type="username" name="username" class="form-control" placeholder="Username" required>
+                    </div>
+                  </div>
+                  <div class="row align-items-center mt-4">
+                    <div class="col">
+                      <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    </div>
+                  </div>
+                  <div class="row justify-content-start mt-4">
+                    <div class="col">
+                      <center><button class="btn btn-success">Login</button></center>
+                    </div>
+                  </div><br>
+                  <center><a href="/register">Register here</a></center>
+                </div>
+              </div>
+            </div>
+        </form>
+      </section>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
