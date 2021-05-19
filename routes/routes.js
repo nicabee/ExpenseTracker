@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const accountController = require("../controller/accountController");
-const taskController = require("../controller/taskController");
+const expenseController = require("../controller/expenseController");
 var session = require('express-session');
 
 
@@ -22,19 +22,21 @@ let initWebRoutes = (app) => {
     
     router.get("/home",  (req,res) =>{
         var message = req.session.user1;
-        res.render("home", {data: message});
+        var expense = req.session.expense1;
+        res.render("home", {data: message, expenses: expense});
 
     })
 
-  /*  router.get("/add",  (req,res) =>{
-           var message = req.session.user1;
-           res.render("addTask", {data: message});
+    router.get("/add",  (req,res) =>{
+        var message = req.session.user1;
+        res.render("addExpense", {data: message});
  
     })
 
-    router.get("/update", taskController.updateTask);
-    router.get("/delete", taskController.deleteTask);
-    router.post("/add", taskController.createTask); */
+    router.post("/sortByCategory", expenseController.sortByCategory);
+   /* router.get("/update", taskController.updateTask); */
+    router.get("/delete", expenseController.deleteExpense);
+    router.post("/add", expenseController.createExpense); 
     router.post("/register", accountController.createAccount);
     router.post("/login", accountController.loginAccount);
     

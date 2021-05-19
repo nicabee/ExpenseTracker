@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>To do list</title>
+  <title>Expenses List</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link href="assets/css/style.css" rel="stylesheet">
 </head>
@@ -18,8 +18,56 @@
     <div class="container">
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-4">Expense Tracker</h1>
+          <h1 class="display-4">Expenses Tracker</h1>
           <h3 style="margin-top:50px;">Welcome <%= data.username %>!</h3>
+          <div class="row">
+            <center>
+              <button type="button" class="btn btn-primary" ><a href="/add" style="color:white !important;">Add Task</a></button>
+            </center> <br><br>
+            <form action="/sortByCategory" method="POST" id="sortByCategory">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Expense Category</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="expense_category">
+                  <option value=<%= data.uuid %> >Choose Here</option>
+                  <option>Food and Beverage</option>
+                  <option>Education</option>
+                  <option>Home</option>
+                  <option>Transportation</option>
+                  <option>Miscellaneous</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary" >View</button>
+              <button type="submit" class="btn btn-secondary"><a href='/displayAll' style="color: white;">Display All</button></a>
+              </form>
+
+            <% for(i=0;i < expenses.length ; i++) { %>
+              <table class="table table-striped table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">Expense Number</th>
+                    <th scope="col">Expense Name</th>
+                    <th scope="col">Expense Amount</th>
+                    <th scope="col">Expense Category</th>
+                    <th scope="col">Expense Note</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row"><%= i+1 %></th>
+                    <td><%= expenses[i].expense_name %></td>
+                    <td><%= expenses[i].expense_name %></td>
+                    <td><%= expenses[i].expense_category %></td>
+                    <td><%= expenses[i].expense_note %></td>
+                    <td>
+                   <button type="button" class="btn btn-danger"><a href="/delete?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color: white;">Click to Delete</button> 
+                        </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            <% } %>
+          </div>
         </div>
       </div>
   </div>

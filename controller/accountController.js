@@ -1,7 +1,7 @@
 const account = require("../models/user");
 const {v4 : uuidv4} = require('uuid');
 const bcrypt = require('bcrypt');
-const task = require("../models/task");
+const expense = require("../models/expense");
 
 exports.loginAccount = async (req, res) => {
         let data = await account.model.findOne(
@@ -18,10 +18,10 @@ exports.loginAccount = async (req, res) => {
             }else{
                bcrypt.compare(req.body.password,user.password).then((isMatch) => {   
                    if (isMatch) {   
-                        console.log("Login Successful");
-                        req.session.user1 = user;
-                        res.redirect("/home");
-                    /*  let data2 = task.model.findAll(
+                        // console.log("Login Successful");
+                        // req.session.user1 = user;
+                        // res.redirect("/home");
+                      let data2 = expense.model.findAll(
                             {
                             where: {
                                 uuid: user.uuid
@@ -32,10 +32,10 @@ exports.loginAccount = async (req, res) => {
                             }else{ 
                                 console.log("Login Successful");
                                 req.session.user1 = user;
-                                //req.session.usertwo = user2;
+                                req.session.expense1 = user2;
                                 res.redirect("/home");
                             }
-                        }) */
+                        }) 
                    } 
                    else {
                        res.render("index",{ err:"Password is incorrect!"} ) 
