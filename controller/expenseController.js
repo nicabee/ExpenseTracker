@@ -1,6 +1,8 @@
 const { response } = require("express");
 const expense = require("../models/expense");
 var user2;
+
+
 exports.createExpense = async (req, res) => {
 
         let data = await expense.model.create({

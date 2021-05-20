@@ -3,7 +3,9 @@ const {v4 : uuidv4} = require('uuid');
 const bcrypt = require('bcrypt');
 const expense = require("../models/expense");
 
+
 exports.loginAccount = async (req, res) => {
+    console.log("loginAccount");
         let data = await account.model.findOne(
             
             {
@@ -27,6 +29,7 @@ exports.loginAccount = async (req, res) => {
                             if(!user2){
                                 console.log("Login Failed");
                             }else{ 
+                                
                                 console.log("Login Successful");
                                 req.session.user1 = user;
                                 req.session.expense1 = user2;
@@ -41,6 +44,9 @@ exports.loginAccount = async (req, res) => {
             }
         })
 }
+
+
+
 
 exports.createAccount = async (req, res) => {
     try{

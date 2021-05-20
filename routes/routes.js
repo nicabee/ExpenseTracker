@@ -6,6 +6,7 @@ var session = require('express-session');
 
 
 
+
 let initWebRoutes = (app) => {
     router.use(session({secret: 'mySecret', resave: false, saveUninitialized: false}));
 
@@ -15,6 +16,7 @@ let initWebRoutes = (app) => {
     router.get("/login", (req,res) =>{
         res.render("index");
     })
+
     router.get("/register", (req,res) =>{
         res.render("register");
     })
