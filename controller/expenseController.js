@@ -66,10 +66,7 @@ exports.showEditPage = async (req, res) => {
             }else{
                 console.log("No records found!");
             }
-        })
-
-
-        
+        })    
  }
 
  exports.UpdateExpense = async (req, res) => {

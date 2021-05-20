@@ -29,7 +29,6 @@ exports.loginAccount = async (req, res) => {
                             if(!user2){
                                 console.log("Login Failed");
                             }else{ 
-                                
                                 console.log("Login Successful");
                                 req.session.user1 = user;
                                 req.session.expense1 = user2;

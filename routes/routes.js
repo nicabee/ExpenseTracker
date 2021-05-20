@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const accountController = require("../controller/accountController");
 const expenseController = require("../controller/expenseController");
+const profileController = require("../controller/profileController");
 var session = require('express-session');
 
 
@@ -38,10 +39,13 @@ let initWebRoutes = (app) => {
     router.get("/update", expenseController.showEditPage);
     router.post("/update", expenseController.UpdateExpense);
     router.post("/sortByCategory", expenseController.sortByCategory);
-   /* router.get("/update", taskController.updateTask); */
     router.get("/delete", expenseController.deleteExpense);
     router.post("/add", expenseController.createExpense); 
     router.post("/register", accountController.createAccount);
+
+    router.get("/editProfile", profileController.showEditProfile);
+    router.post("/editProfile", profileController.editProfile);
+
     router.post("/login", accountController.loginAccount);
     
     router.get("/logout",(req,res)=>{
