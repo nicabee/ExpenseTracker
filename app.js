@@ -11,3 +11,4 @@ app.use(express.static("public"));
 initWebRoutes(app);
 
 app.listen(8080);
+console.log("It is running at port 8080.");
