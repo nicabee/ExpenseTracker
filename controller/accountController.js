@@ -18,9 +18,6 @@ exports.loginAccount = async (req, res) => {
             }else{
                bcrypt.compare(req.body.password,user.password).then((isMatch) => {   
                    if (isMatch) {   
-                        // console.log("Login Successful");
-                        // req.session.user1 = user;
-                        // res.redirect("/home");
                       let data2 = expense.model.findAll(
                             {
                             where: {

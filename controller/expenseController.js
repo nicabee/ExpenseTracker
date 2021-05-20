@@ -37,38 +37,82 @@ exports.createExpense = async (req, res) => {
    
 }
 
-// exports.updateExpense = async (req, res) => {
-//         console.log(req.query.user);
-//          let data = await task.model.update(
-//              {status: "completed"},
-//             {
-//                 where:{
-//                     id: req.query.id
-//                 }
-//             }      
-//          ).then(user => {
-//              if(!user){
-//                 console.log("Unable to update status");
-//              }else{
-//                 console.log("Task Status Updated");
-//                 let data2 = task.model.findAll(
-//                     {
-//                     where: {
-//                         uuid: req.query.user
-//                     },
-//                  }).then(user2 => {
-//                         if(!user2){
-//                             console.log("task cant be found");
-//                         }else{
-//                             console.log("task found");
-//                             req.session.usertwo = user2;
-//                             res.redirect("/home");
-//                         }
-//                     })
-//              }
+exports.showEditPage = async (req, res) => {
+        console.log(req.query.user);
+        console.log(req.query.id);
+
+        let data = await expense.model.findOne(
+            
+            {
+                where: {
+                    id: req.query.id
+                }
+            }
+            
+        ).then(function(user){
+            if(user){
+                console.log(user.expense_category);
+                console.log(user.expense_note);
+                res.render('editExpense.ejs', {
+                    userid: user.id,
+                    uuid: user.uuid,
+                    expenseName: user.expense_name,
+                    expenseAmount: user.expense_amount,
+                    expenseCategory: user.expense_category,
+                    expenseNote: user.expense_note
+                })
+            }else{
+                console.log("No records found!");
+            }
+        })
+
+
+        
+ }
+
+ exports.UpdateExpense = async (req, res) => {
+    //  console.log(req.body.expense_name);
+    //  console.log(req.body.expense_amount);
+    //  console.log(req.body.expense_category);
+    //  console.log(req.body.expense_note);
+    //  console.log(req.body.userid);
+    let data = await expense.model.update(
+                 {
+                //status: "completed",
+                expense_name: req.body.expense_name,
+                expense_amount: req.body.expense_amount,
+                expense_category: req.body.expense_category,
+                expense_note: req.body.expense_note
+                },
+            {
+                where:{
+                    id: req.body.userid
+                }
+            }      
+         ).then(user => {
+             if(!user){
+                console.log("Unable to update expense");
+             }else{
+                console.log("Expense Updated");
+                let data2 = expense.model.findAll(
+                    {
+                    where: {
+                        uuid: req.body.uuid
+                    },
+                 }).then(user2 => {
+                        if(!user2){
+                            console.log("expense cant be found");
+                        }else{
+                            console.log("task found");
+                            req.session.expense1 = user2;
+                            res.redirect("/home");
+                        }
+                    })
+             }
              
-//          })
-//  }
+         })
+     
+ }
 
  exports.deleteExpense = async (req, res) => {
      console.log(req.query.user);

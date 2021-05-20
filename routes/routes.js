@@ -33,6 +33,8 @@ let initWebRoutes = (app) => {
  
     })
 
+    router.get("/update", expenseController.showEditPage);
+    router.post("/update", expenseController.UpdateExpense);
     router.post("/sortByCategory", expenseController.sortByCategory);
    /* router.get("/update", taskController.updateTask); */
     router.get("/delete", expenseController.deleteExpense);

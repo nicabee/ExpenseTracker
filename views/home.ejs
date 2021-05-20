@@ -20,6 +20,7 @@
         <div class="container">
           <h1 class="display-4">Expenses Tracker</h1>
           <h3 style="margin-top:50px;">Welcome <%= data.username %>!</h3>
+          <h3 style="margin-top:50px;">UUID: <%= data.uuid %>!</h3>
           <div class="row">
             <center>
               <button type="button" class="btn btn-primary" ><a href="/add" style="color:white !important;">Add Task</a></button>
@@ -49,6 +50,7 @@
                     <th scope="col">Expense Amount</th>
                     <th scope="col">Expense Category</th>
                     <th scope="col">Expense Note</th>
+                    <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                   </tr>
                 </thead>
@@ -56,11 +58,14 @@
                   <tr>
                     <th scope="row"><%= i+1 %></th>
                     <td><%= expenses[i].expense_name %></td>
-                    <td><%= expenses[i].expense_name %></td>
+                    <td><%= expenses[i].expense_amount %></td>
                     <td><%= expenses[i].expense_category %></td>
                     <td><%= expenses[i].expense_note %></td>
                     <td>
-                   <button type="button" class="btn btn-danger"><a href="/delete?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color: white;">Click to Delete</button> 
+                    <button type="button" class="btn btn-success"><a href="/update?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color:white;">Edit</button>
+                    </td>
+                    <td>
+                   <button type="button" class="btn btn-danger"><a href="/delete?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color: white;">Delete</button> 
                         </a>
                     </td>
                   </tr>
