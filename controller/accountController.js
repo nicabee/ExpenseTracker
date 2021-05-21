@@ -63,7 +63,7 @@ exports.createAccount = async (req, res) => {
                 res.render("index.ejs");
             })
         }else{
-            console.log("Password mismatch");
+            res.render("register.ejs",{ errors:"Passwords do not match!"} ) 
         }
     }catch(err){
         

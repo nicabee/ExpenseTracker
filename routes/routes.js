@@ -26,7 +26,9 @@ let initWebRoutes = (app) => {
     router.get("/home",  (req,res) =>{
         var message = req.session.user1;
         var expense = req.session.expense1;
-        res.render("home", {data: message, expenses: expense});
+        var error = req.session.error;
+        var successful = req.session.successful;
+        res.render("home", {data: message, expenses: expense, err: error, status: successful});
 
     })
 
