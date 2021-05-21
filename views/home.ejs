@@ -19,6 +19,12 @@
     <div class="container">
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
+          <%  if( typeof(status)!= 'undefined'  ){ %>
+            <center> <h5 style="color:green"> <div class="alert alert-success"><%= status%> </div></h5></center>
+           <% }%>
+           <%  if( typeof(err)!= 'undefined'  ){ %>
+             <center><h5 style="color:red"><div class="alert alert-danger"> <%= err%></div> </h5></center>
+           <% }%>
           <h1 class="display-4">Expenses Tracker</h1>
           <h3 style="margin-top:50px;">Welcome <%= data.username %>!</h3>
           <h3 style="margin-top:50px;">UUID: <%= data.uuid %>!</h3>
@@ -59,7 +65,7 @@
                   <tr>
                     <th scope="row"><%= i+1 %></th>
                     <td><%= expenses[i].expense_name %></td>
-                    <td><%= expenses[i].expense_amount %></td>
+                    <td>₱<%= expenses[i].expense_amount %></td>
                     <td><%= expenses[i].expense_category %></td>
                     <td><%= expenses[i].expense_note %></td>
                     <td>

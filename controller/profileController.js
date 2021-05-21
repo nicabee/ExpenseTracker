@@ -34,53 +34,95 @@ exports.editProfile = async (req, res) => {
     //  console.log(req.body.email_address);
     //  console.log(req.body.user);
     // console.log(req.body.uuid);
-    let data = await account.model.update(
-                 {
-                username: req.body.username,
-                email_address: req.body.email_address
+    let data0 = await account.model.findOne(
+        
+        {
+            where: {
+                username: req.body.username
+            }
+        }
+        
+    ).then(function(userAuth){
+        if(userAuth){
+            //username to be changed exists
+            let data2 = expense.model.findAll(
+                {
+                where: {
+                    uuid: req.body.uuid
                 },
-            {
-                where:{
-                    username: req.body.user
-                }
-            }      
-         ).then(user => {
-             if(!user){
-                console.log("Unable to update your profile");
-             }else{
-                console.log("profile updated");
-                
-                let data2 = expense.model.findAll(
-                    {
-                    where: {
-                        uuid: req.body.uuid
-                    },
-                 }).then(user2 => {
-                        if(!user2){
-                            console.log("no");
-                        }else{
-                            console.log("yes");
-                            let data3 = account.model.findOne(
-                                {
-                                where: {
-                                    uuid: req.body.uuid
-                                },
-                             }).then(user3 => {
-                                    if(!user3){
-                                        console.log("no1");
-                                    }else{
-                                        console.log("yes2");
-                                        
-                                        req.session.user1 = user3;
-                                        req.session.expense1 = user2;
-                                        res.redirect("/home");
-                                    }
-                                })
-    
-                        }
-                    })
-             }
-             
-         })
-     
+                }).then(user2 => {
+                    if(!user2){
+                        console.log("no1");
+                    }else{
+                        console.log("yes1");
+                        let data3 = account.model.findOne(
+                            {
+                            where: {
+                                uuid: req.body.uuid
+                            },
+                            }).then(user3 => {
+                                if(!user3){
+                                    console.log("no11");
+                                }else{
+                                    console.log("yes22");
+                                    
+                                    req.session.user1 = user3;
+                                    req.session.expense1 = user2;
+                                    req.session.successful = undefined
+                                    req.session.error = "Username is already taken!"
+                                    res.redirect("/home");
+                                }
+                            })
+                    }
+                })
+        }else{ //doesnt exist
+            let data = account.model.update(
+                {
+                    username: req.body.username,
+                    email_address: req.body.email_address
+                },
+                {
+                    where:{
+                        username: req.body.user
+                    }
+                }).then(user => {
+                    if(!user){
+                    console.log("Unable to update your profile");
+                    }else{
+                    console.log("profile updated");
+                    
+                    let data2 = expense.model.findAll(
+                        {
+                        where: {
+                            uuid: req.body.uuid
+                        },
+                        }).then(user2 => {
+                            if(!user2){
+                                console.log("no");
+                            }else{
+                                console.log("yes");
+                                let data3 = account.model.findOne(
+                                    {
+                                    where: {
+                                        uuid: req.body.uuid
+                                    },
+                                    }).then(user3 => {
+                                        if(!user3){
+                                            console.log("no1");
+                                        }else{
+                                            console.log("yes2");
+                                            
+                                            req.session.user1 = user3;
+                                            req.session.expense1 = user2;
+                                            req.session.error = undefined
+                                            req.session.successful = "Username successfully changed!"
+                                            res.redirect("/home");
+                                        }
+                                    })
+                            }
+                        })
+                    }
+                })
+        }
+    })    
  }
