@@ -328,7 +328,6 @@ exports.editProfile = async (req, res) => {
             .update(
               {
                 username: req.body.username,
-                //email_address: req.body.email_address,
               },
               {
                 where: {
