@@ -1,88 +1,90 @@
-
-
-
-
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
 @font-face {
   font-family: SourceSansPro-Regular;
-  src: url('../fonts/source-sans-pro/SourceSansPro-Regular.ttf'); 
+  src: url("../fonts/source-sans-pro/SourceSansPro-Regular.ttf");
 }
 
 @font-face {
   font-family: SourceSansPro-Bold;
-  src: url('../fonts/source-sans-pro/SourceSansPro-Bold.ttf'); 
+  src: url("../fonts/source-sans-pro/SourceSansPro-Bold.ttf");
 }
 
 @font-face {
   font-family: SourceSansPro-SemiBold;
-  src: url('../fonts/source-sans-pro/SourceSansPro-SemiBold.ttf'); 
+  src: url("../fonts/source-sans-pro/SourceSansPro-SemiBold.ttf");
 }
 
 @font-face {
   font-family: JosefinSans-Bold;
-  src: url('../fonts/JosefinSans/JosefinSans-Bold.ttf'); 
+  src: url("../fonts/JosefinSans/JosefinSans-Bold.ttf");
 }
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-	height: 100%;
-	font-family: SourceSansPro-Regular, sans-serif;
+body,
+html {
+  height: 100%;
+  font-family: SourceSansPro-Regular, sans-serif;
 }
 
 /*---------------------------------------------*/
 a {
-	font-family: SourceSansPro-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
+  font-family: SourceSansPro-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
 }
 
 a:focus {
-	outline: none !important;
+  outline: none !important;
 }
 
 a:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 /*---------------------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
 }
 
 p {
-	font-family: SourceSansPro-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
+  font-family: SourceSansPro-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
 }
 
-ul, li {
-	margin: 0px;
-	list-style-type: none;
+ul,
+li {
+  margin: 0px;
+  list-style-type: none;
 }
-
 
 /*---------------------------------------------*/
 input {
-	outline: none;
-	border: none;
+  outline: none;
+  border: none;
 }
 
 textarea {
@@ -90,36 +92,51 @@ textarea {
   border: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
-input::-webkit-input-placeholder { color: #4b2354;}
-input:-moz-placeholder { color: #4b2354;}
-input::-moz-placeholder { color: #4b2354;}
-input:-ms-input-placeholder { color: #4b2354;}
+input::-webkit-input-placeholder {
+  color: #4b2354;
+}
+input:-moz-placeholder {
+  color: #4b2354;
+}
+input::-moz-placeholder {
+  color: #4b2354;
+}
+input:-ms-input-placeholder {
+  color: #4b2354;
+}
 
-textarea::-webkit-input-placeholder { color: #4b2354;}
-textarea:-moz-placeholder { color: #4b2354;}
-textarea::-moz-placeholder { color: #4b2354;}
-textarea:-ms-input-placeholder { color: #4b2354;}
+textarea::-webkit-input-placeholder {
+  color: #4b2354;
+}
+textarea:-moz-placeholder {
+  color: #4b2354;
+}
+textarea::-moz-placeholder {
+  color: #4b2354;
+}
+textarea:-ms-input-placeholder {
+  color: #4b2354;
+}
 
 /*---------------------------------------------*/
 button {
-	outline: none !important;
-	border: none;
-	background: transparent;
+  outline: none !important;
+  border: none;
+  background: transparent;
 }
 
 button:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 iframe {
-	border: none !important;
+  border: none !important;
 }
-
-
 
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
@@ -142,12 +159,11 @@ iframe {
   text-decoration: underline;
 }
 
-
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
 
 .container-login100 {
-  width: 100%;  
+  width: 100%;
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -160,7 +176,8 @@ iframe {
   padding: 15px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
+  background-attachment: fixed;
   position: relative;
   z-index: 1;
 }
@@ -190,7 +207,6 @@ iframe {
   -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
 }
-
 
 /*==================================================================
 [ Form ]*/
@@ -237,7 +253,6 @@ iframe {
   background: transparent;
   padding: 0 20px 0 23px;
 }
-
 
 /*------------------------------------------------------------------
 [ Focus Input ]*/
@@ -430,8 +445,6 @@ iframe {
   top: 0px;
   right: 23px;
 }
-
-
 
 /*//////////////////////////////////////////////////////////////////
 [ Social item ]*/
