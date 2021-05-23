@@ -24,6 +24,8 @@ Run the following code in the console:
 npx sequelize db:migrate
 ```
 
+Default DB name set in `connection.js` and `.env` is `xpnstrackr`
+
 Run the app!
 
 ```
