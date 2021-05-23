@@ -1,5 +1,6 @@
 const account = require("../models/user");
 const expense = require("../models/expense");
+const instance = require("../connection");
 
 exports.showEditProfile = async (req, res) => {
   //  console.log(req.query.username);
@@ -375,6 +376,68 @@ exports.editProfile = async (req, res) => {
                   });
               }
             });
+        }
+      });
+  } else {
+    // console.log("lolers");
+    // console.log(req.body.username);
+    // console.log(req.body.email_address);
+
+    await account.model
+      .findOne({
+        where: {
+          username: req.body.username,
+        },
+      })
+      .then(function (user) {
+        if (user) {
+          //if username exists, load the expenses
+          expense.model
+            .findAll({
+              where: {
+                uuid: user.uuid,
+              },
+            })
+            .then(function (user2) {
+              if (user2) {
+                expense.model
+                  .findAll({
+                    where: {
+                      uuid: user.uuid,
+                    },
+                    attributes: [
+                      // "expense_category",
+                      [
+                        instance.sequelize.fn(
+                          "sum",
+                          instance.sequelize.col("expense_amount")
+                        ),
+                        "total_amount",
+                      ],
+                    ],
+                    //group: ["expense_category"],
+                  })
+                  .then(function (totAmt) {
+                    if (totAmt) {
+                      console.log("Yes amt");
+
+                      console.log("yess");
+                      req.session.user1 = user;
+                      req.session.expense1 = user2;
+                      req.session.totalAmt = totAmt;
+                      req.session.successful = undefined;
+                      req.session.error = undefined;
+                      res.redirect("/home");
+                    } else {
+                      console.log("No amt");
+                    }
+                  });
+              } else {
+                console.log("expenses not found");
+              }
+            });
+        } else {
+          console.log("account not found");
         }
       });
   }
