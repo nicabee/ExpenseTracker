@@ -237,7 +237,7 @@ exports.deleteExpense = async (req, res) => {
 
 exports.sortByCategory = async (req, res) => {
   // console.log(req.body.expense_category);
-  // console.log(data.uuid);
+  console.log(req.body.uuiduser);
   if (
     req.body.expense_category != "Food and Beverage" &&
     req.body.expense_category != "Education" &&
@@ -253,8 +253,37 @@ exports.sortByCategory = async (req, res) => {
       })
       .then(function (user) {
         if (user) {
-          req.session.expense1 = user;
-          res.redirect("/home");
+          let totalAmount = expense.model
+            .findAll({
+              where: {
+                uuid: req.body.expense_category,
+              },
+              attributes: [
+                // "expense_category",
+                [
+                  instance.sequelize.fn(
+                    "sum",
+                    instance.sequelize.col("expense_amount")
+                  ),
+                  "total_amount",
+                ],
+              ],
+              //group: ["expense_category"],
+            })
+            .then(function (totAmt) {
+              if (totAmt) {
+                console.log("Yes amt");
+                //console.log(totAmt);
+                //req.session.user1 = user;
+                req.session.expense1 = user;
+                req.session.totalAmt = totAmt;
+                res.redirect("/home");
+              } else {
+                console.log("No amt");
+              }
+            });
+          // req.session.expense1 = user;
+          // res.redirect("/home");
         } else {
           console.log("No records found!");
         }
@@ -263,13 +292,45 @@ exports.sortByCategory = async (req, res) => {
     let data = await expense.model
       .findAll({
         where: {
+          uuid: req.body.uuiduser,
           expense_category: req.body.expense_category,
         },
       })
       .then(function (user) {
         if (user) {
-          req.session.expense1 = user;
-          res.redirect("/home");
+          let totalAmount = expense.model
+            .findAll({
+              where: {
+                uuid: req.body.uuiduser,
+                expense_category: req.body.expense_category,
+              },
+              attributes: [
+                // "expense_category",
+                [
+                  instance.sequelize.fn(
+                    "sum",
+                    instance.sequelize.col("expense_amount")
+                  ),
+                  "total_amount",
+                ],
+              ],
+              //group: ["expense_category"],
+            })
+            .then(function (totAmt) {
+              if (totAmt) {
+                console.log("Yes amt");
+                //console.log(totAmt);
+                //req.session.user1 = user;
+                req.session.expense1 = user;
+                req.session.totalAmt = totAmt;
+                res.redirect("/home");
+              } else {
+                console.log("No amt");
+              }
+            });
+
+          // req.session.expense1 = user;
+          // res.redirect("/home");
         } else {
           console.log("No records found!");
         }

@@ -28,7 +28,7 @@
           <h1 class="display-4">Expenses Tracker</h1>
           <h3 style="margin-top:50px;">Welcome <%= data.username %>!</h3>
           <h3 style="margin-top:50px;">UUID: <%= data.uuid %>!</h3>
-          <h3 style="margin-top:50px;">Total: <%= totalExpenses[0].total_amount %>!</h3>
+          <h3 style="margin-top:50px;">Total: <%= totalExpenses[0].total_amount %></h3>
           
           <div class="row">
             <center>
@@ -47,6 +47,7 @@
                   <option>Miscellaneous</option>
                 </select>
               </div>
+              <input type="hidden" name="uuiduser" value='<%= data.uuid %>'>
               <button type="submit" class="btn btn-primary" >View</button>
               
               </form>
