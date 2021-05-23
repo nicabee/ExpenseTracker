@@ -28,6 +28,8 @@
           <h1 class="display-4">Expenses Tracker</h1>
           <h3 style="margin-top:50px;">Welcome <%= data.username %>!</h3>
           <h3 style="margin-top:50px;">UUID: <%= data.uuid %>!</h3>
+          <h3 style="margin-top:50px;">Total: <%= totalExpenses[0].total_amount %>!</h3>
+          
           <div class="row">
             <center>
               <button type="button" class="btn btn-primary" ><a href="/add" style="color:white !important;">Add Task</a></button>
@@ -35,6 +37,7 @@
             <form action="/sortByCategory" method="POST" id="sortByCategory">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Expense Category</label>
+                
                 <select class="form-control" id="exampleFormControlSelect1" name="expense_category">
                   <option value=<%= data.uuid %> >Choose Here</option>
                   <option>Food and Beverage</option>

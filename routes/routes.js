@@ -26,11 +26,13 @@ let initWebRoutes = (app) => {
     var expense = req.session.expense1;
     var error = req.session.error;
     var successful = req.session.successful;
+    var total = req.session.totalAmt;
     res.render("home", {
       data: message,
       expenses: expense,
       err: error,
       status: successful,
+      totalExpenses: total,
     });
   });
 

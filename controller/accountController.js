@@ -2,6 +2,7 @@ const account = require("../models/user");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const expense = require("../models/expense");
+const instance = require("../connection");
 
 exports.loginAccount = async (req, res) => {
   console.log("loginAccount");
@@ -28,9 +29,39 @@ exports.loginAccount = async (req, res) => {
                   console.log("Login Failed");
                 } else {
                   console.log("Login Successful");
-                  req.session.user1 = user;
-                  req.session.expense1 = user2;
-                  res.redirect("/home");
+                  let totalAmount = expense.model
+                    .findAll({
+                      where: {
+                        uuid: user.uuid,
+                      },
+                      attributes: [
+                        // "expense_category",
+                        [
+                          instance.sequelize.fn(
+                            "sum",
+                            instance.sequelize.col("expense_amount")
+                          ),
+                          "total_amount",
+                        ],
+                      ],
+                      //group: ["expense_category"],
+                    })
+                    .then(function (totAmt) {
+                      if (totAmt) {
+                        console.log("Yes amt");
+                        //console.log(totAmt);
+                        req.session.user1 = user;
+                        req.session.expense1 = user2;
+                        req.session.totalAmt = totAmt;
+                        res.redirect("/home");
+                      } else {
+                        console.log("No amt");
+                      }
+                    });
+
+                  // req.session.user1 = user;
+                  // req.session.expense1 = user2;
+                  // res.redirect("/home");
                 }
               });
           } else {

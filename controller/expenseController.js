@@ -1,6 +1,7 @@
 const { response } = require("express");
 const expense = require("../models/expense");
 var user2;
+const instance = require("../connection");
 
 exports.createExpense = async (req, res) => {
   let data = await expense.model
@@ -27,8 +28,39 @@ exports.createExpense = async (req, res) => {
               console.log("Expense Creation Failed");
             } else {
               console.log("Expense Creation Successful");
-              req.session.expense1 = user2;
-              res.redirect("/home");
+
+              let totalAmount = expense.model
+                .findAll({
+                  where: {
+                    uuid: user.uuid,
+                  },
+                  attributes: [
+                    // "expense_category",
+                    [
+                      instance.sequelize.fn(
+                        "sum",
+                        instance.sequelize.col("expense_amount")
+                      ),
+                      "total_amount",
+                    ],
+                  ],
+                  //group: ["expense_category"],
+                })
+                .then(function (totAmt) {
+                  if (totAmt) {
+                    console.log("Yes amt");
+                    //console.log(totAmt);
+                    //req.session.user1 = user;
+                    req.session.expense1 = user2;
+                    req.session.totalAmt = totAmt;
+                    res.redirect("/home");
+                  } else {
+                    console.log("No amt");
+                  }
+                });
+
+              //req.session.expense1 = user2;
+              //res.redirect("/home");
             }
           });
       }
@@ -100,8 +132,39 @@ exports.UpdateExpense = async (req, res) => {
               console.log("expense cant be found");
             } else {
               console.log("task found");
-              req.session.expense1 = user2;
-              res.redirect("/home");
+
+              let totalAmount = expense.model
+                .findAll({
+                  where: {
+                    uuid: req.body.uuid,
+                  },
+                  attributes: [
+                    // "expense_category",
+                    [
+                      instance.sequelize.fn(
+                        "sum",
+                        instance.sequelize.col("expense_amount")
+                      ),
+                      "total_amount",
+                    ],
+                  ],
+                  //group: ["expense_category"],
+                })
+                .then(function (totAmt) {
+                  if (totAmt) {
+                    console.log("Yes amt");
+                    //console.log(totAmt);
+                    //req.session.user1 = user;
+                    req.session.expense1 = user2;
+                    req.session.totalAmt = totAmt;
+                    res.redirect("/home");
+                  } else {
+                    console.log("No amt");
+                  }
+                });
+
+              // req.session.expense1 = user2;
+              // res.redirect("/home");
             }
           });
       }
@@ -133,8 +196,39 @@ exports.deleteExpense = async (req, res) => {
               console.log("expense not found");
             } else {
               console.log("expense found");
-              req.session.expense1 = user2;
-              res.redirect("/home");
+
+              let totalAmount = expense.model
+                .findAll({
+                  where: {
+                    uuid: req.query.user,
+                  },
+                  attributes: [
+                    // "expense_category",
+                    [
+                      instance.sequelize.fn(
+                        "sum",
+                        instance.sequelize.col("expense_amount")
+                      ),
+                      "total_amount",
+                    ],
+                  ],
+                  //group: ["expense_category"],
+                })
+                .then(function (totAmt) {
+                  if (totAmt) {
+                    console.log("Yes amt");
+                    //console.log(totAmt);
+                    //req.session.user1 = user;
+                    req.session.expense1 = user2;
+                    req.session.totalAmt = totAmt;
+                    res.redirect("/home");
+                  } else {
+                    console.log("No amt");
+                  }
+                });
+
+              // req.session.expense1 = user2;
+              // res.redirect("/home");
             }
           });
       }
