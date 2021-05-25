@@ -43,7 +43,7 @@
                 <input type="hidden" name="uuid" value='<%= uuid %>'>
                 <label for="example-date-input" class="col-2 col-form-label">Expense Date</label>
                 <div class="col-10">
-                  <input class="form-control" type="date" id="example-date-input" name="expense_date" value="<%=expenseDate%>">
+                  <input class="form-control" type="date" id="example-date-input" name="expense_date" value="<%=expenseDate%>" required>
                 </div>
                 <label for="exampleFormControlTextarea1">Expense Note:</label>
                 <textarea class="form-control" form="update" name="expense_note" id="exampleFormControlTextarea1" rows="5" ><%=expenseNote%></textarea>
