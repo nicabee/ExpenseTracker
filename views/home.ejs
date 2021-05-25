@@ -60,6 +60,7 @@
                     <th scope="col">Expense Name</th>
                     <th scope="col">Expense Amount</th>
                     <th scope="col">Expense Category</th>
+                    <th scope="col">Expense Date</th>
                     <th scope="col">Expense Note</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
@@ -71,6 +72,7 @@
                     <td><%= expenses[i].expense_name %></td>
                     <td>₱<%= expenses[i].expense_amount %></td>
                     <td><%= expenses[i].expense_category %></td>
+                    <td><%= expenses[i].expense_date %></td>
                     <td><%= expenses[i].expense_note %></td>
                     <td>
                     <button type="button" class="btn btn-success"><a href="/update?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color:white;">Edit</button>

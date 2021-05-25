@@ -88,6 +88,7 @@ exports.showEditPage = async (req, res) => {
           expenseName: user.expense_name,
           expenseAmount: user.expense_amount,
           expenseCategory: user.expense_category,
+          expenseDate: user.expense_date,
           expenseNote: user.expense_note,
         });
       } else {
@@ -109,6 +110,7 @@ exports.UpdateExpense = async (req, res) => {
         expense_name: req.body.expense_name,
         expense_amount: req.body.expense_amount,
         expense_category: req.body.expense_category,
+        expense_date: req.body.expense_date,
         expense_note: req.body.expense_note,
       },
       {
