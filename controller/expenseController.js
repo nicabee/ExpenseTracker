@@ -11,6 +11,7 @@ exports.createExpense = async (req, res) => {
       expense_amount: req.body.expense_amount,
       expense_category: req.body.expense_category,
       expense_note: req.body.expense_note,
+      expense_date: req.body.expense_date,
     })
     .then((user) => {
       if (!user) {

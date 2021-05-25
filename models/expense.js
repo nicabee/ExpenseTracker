@@ -41,6 +41,9 @@ const expense = instance.sequelize.define(
     deletedAt: {
       type: DataTypes.DATE,
     },
+    expense_date: {
+      type: DataTypes.DATEONLY,
+    },
   },
   {
     createdAt: true,
