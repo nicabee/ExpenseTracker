@@ -1,6 +1,80 @@
 const account = require("../models/user");
 const expense = require("../models/expense");
 const instance = require("../connection");
+const bcrypt = require("bcrypt");
+
+exports.showResetPassword = async (req, res) => {
+  await account.model
+    .findOne({
+      where: {
+        username: req.query.username,
+      },
+    })
+    .then(function (user) {
+      if (user) {
+        // console.log(user.expense_category);
+        // console.log(user.expense_note);
+        // res.render("resetPassword.ejs");
+        res.render("resetPassword.ejs", {
+          username: user.username,
+        });
+      } else {
+        console.log("User not found!");
+      }
+    });
+};
+
+exports.resetPassword = async (req, res) => {
+  //console.log(req.body.user);
+  let salt = bcrypt.genSaltSync(10);
+  await account.model
+    .findOne({
+      where: {
+        username: req.body.user,
+      },
+    })
+    .then(function (user) {
+      if (user) {
+        bcrypt.compare(req.body.oldpassword, user.password).then((isMatch) => {
+          if (isMatch) {
+            account.model
+              .update(
+                {
+                  password: bcrypt.hashSync(req.body.newpassword, salt),
+                },
+                {
+                  where: {
+                    username: req.body.user,
+                  },
+                }
+              )
+              .then(function (userPass) {
+                if (userPass) {
+                  res.render("profile.ejs", {
+                    uuid: user.uuid,
+                    username: user.username,
+                    email_address: user.email_address,
+                  });
+                  console.log("Updated password");
+                } else {
+                  console.log("Unable to update password");
+                }
+              });
+          } else {
+            res.render("profile.ejs", {
+              uuid: user.uuid,
+              username: user.username,
+              email_address: user.email_address,
+              errors: "Password does not match current password",
+            });
+            console.log("Password does not match current password");
+          }
+        });
+      } else {
+        console.log("User not found!");
+      }
+    });
+};
 
 exports.showEditProfile = async (req, res) => {
   //  console.log(req.query.username);

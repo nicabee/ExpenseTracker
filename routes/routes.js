@@ -53,6 +53,9 @@ let initWebRoutes = (app) => {
   router.get("/editProfile", profileController.showEditProfile);
   router.post("/editProfile", profileController.editProfile);
 
+  router.get("/resetPassword", profileController.showResetPassword);
+  router.post("/resetPassword", profileController.resetPassword);
+
   router.post("/login", accountController.loginAccount);
 
   router.get("/logout", (req, res) => {
