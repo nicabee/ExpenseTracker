@@ -28,6 +28,7 @@ let initWebRoutes = (app) => {
     var error = req.session.error;
     var successful = req.session.successful;
     var total = req.session.totalAmt;
+
     res.render("home", {
       data: message,
       expenses: expense,
