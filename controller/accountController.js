@@ -5,8 +5,12 @@ const expense = require("../models/expense");
 const instance = require("../connection");
 
 exports.loginAccount = async (req, res) => {
+  /**
+   * *called for user login
+   */
+
   console.log("loginAccount");
-  let data = await account.model
+  await account.model
     .findOne({
       where: {
         username: req.body.username,
@@ -14,11 +18,15 @@ exports.loginAccount = async (req, res) => {
     })
     .then(function (user) {
       if (!user) {
+        /**
+         * *if user does not exist in the database
+         */
+
         res.render("index.ejs", { err: "Account does not exist" });
       } else {
         bcrypt.compare(req.body.password, user.password).then((isMatch) => {
           if (isMatch) {
-            let data2 = expense.model
+            expense.model
               .findAll({
                 where: {
                   uuid: user.uuid,
@@ -26,16 +34,27 @@ exports.loginAccount = async (req, res) => {
               })
               .then(function (user2) {
                 if (!user2) {
+                  /**
+                   * * This loads the expenses under the user's uuid
+                   *
+                   */
+
                   console.log("Login Failed");
+                  res.render("index.ejs", { err: "Expenses not found" });
                 } else {
+                  /**
+                   * *If login is successful, this is executed
+                   */
                   console.log("Login Successful");
-                  let totalAmount = expense.model
+                  /**
+                   * *Query for the sum of total expenses
+                   */
+                  expense.model
                     .findAll({
                       where: {
                         uuid: user.uuid,
                       },
                       attributes: [
-                        // "expense_category",
                         [
                           instance.sequelize.fn(
                             "sum",
@@ -44,27 +63,24 @@ exports.loginAccount = async (req, res) => {
                           "total_amount",
                         ],
                       ],
-                      //group: ["expense_category"],
                     })
                     .then(function (totAmt) {
                       if (totAmt) {
-                        console.log("Yes amt");
-                        //console.log(totAmt);
-                        req.session.user1 = user;
-                        req.session.expense1 = user2;
-                        req.session.totalAmt = totAmt;
+                        req.session.user1 =
+                          user; /* passing the user information to /home */
+                        req.session.expense1 =
+                          user2; /* passing the expenses information to /home */
+                        req.session.totalAmt =
+                          totAmt; /* passing the total expenses amount to /home */
                         res.redirect("/home");
                       } else {
                         console.log("No amt");
                       }
                     });
-
-                  // req.session.user1 = user;
-                  // req.session.expense1 = user2;
-                  // res.redirect("/home");
                 }
               });
           } else {
+            /* Goes back to login page if password is incorrect */
             res.render("index", { err: "Password is incorrect!" });
           }
         });
@@ -74,10 +90,10 @@ exports.loginAccount = async (req, res) => {
 
 exports.createAccount = async (req, res) => {
   try {
-    const tok = uuidv4();
+    const tok = uuidv4(); /* generates UUID */
     if (req.body.password === req.body.passwordConfirmation) {
-      let salt = bcrypt.genSaltSync(10);
-      let data = await account.model
+      let salt = bcrypt.genSaltSync(10); /* for password hashing */
+      await account.model
         .create({
           uuid: tok,
           username: req.body.username,
@@ -85,14 +101,24 @@ exports.createAccount = async (req, res) => {
           password: bcrypt.hashSync(req.body.password, salt),
         })
         .then((user) => {
+          /**
+           *  ! to be erased
+           */
+
           console.log("New auto-generated ID:", user.id);
-          res.render("index.ejs");
+          res.render("index.ejs", {
+            status: "Successfully created an account!",
+          });
         });
     } else {
+      /* returns user to register page */
       res.render("register.ejs", { errors: "Passwords do not match!" });
     }
   } catch (err) {
-    let data = await account.model
+    /**
+     * *When account to be registered has credentials that already exist
+     */
+    await account.model
       .findOne({
         where: {
           username: req.body.username,
@@ -102,7 +128,7 @@ exports.createAccount = async (req, res) => {
         if (user) {
           res.render("register.ejs", { errors: "Username exists!" });
         } else {
-          let data = account.model
+          account.model
             .findOne({
               where: {
                 email_address: req.body.email_address,
