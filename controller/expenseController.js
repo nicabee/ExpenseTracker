@@ -288,13 +288,12 @@ exports.sortByCategory = async (req, res) => {
                  * * Expenses are stored in req.session.expense1
                  * * Total Amount of expenses is stored in req.session.totalAmt
                  */
+                req.session.returnmsg = undefined;
                 req.session.expense1 = user;
                 req.session.totalAmt = totAmt;
                 res.redirect("/home");
               }
             });
-        } else {
-          console.log("No records found!");
         }
       });
   } else {
@@ -309,7 +308,7 @@ exports.sortByCategory = async (req, res) => {
         },
       })
       .then(function (user) {
-        if (user) {
+        if (user != 0) {
           /**
            * * Gets total amount of expenses for chosen category
            */
@@ -331,13 +330,29 @@ exports.sortByCategory = async (req, res) => {
             })
             .then(function (totAmt) {
               if (totAmt) {
+                req.session.returnmsg = undefined;
                 req.session.expense1 = user;
                 req.session.totalAmt = totAmt;
                 res.redirect("/home");
               }
             });
         } else {
-          console.log("No records found!");
+          expense.model
+            .findAll({
+              where: {
+                uuid: req.body.uuiduser,
+                expense_category: req.body.expense_category,
+              },
+            })
+            .then(function (expenseNotExists) {
+              if (expenseNotExists) {
+                req.session.totalAmt = "0.00";
+                req.session.expense1 = expenseNotExists;
+                req.session.returnmsg = "No records found!";
+                res.redirect("/home");
+                console.log("No records found!");
+              }
+            });
         }
       });
   }

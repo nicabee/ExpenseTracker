@@ -28,13 +28,14 @@ let initWebRoutes = (app) => {
     var error = req.session.error;
     var successful = req.session.successful;
     var total = req.session.totalAmt;
-
+    var retmsg = req.session.returnmsg;
     res.render("home", {
       data: message,
       expenses: expense,
       err: error,
       status: successful,
       totalExpenses: total,
+      returns: retmsg,
     });
   });
 
