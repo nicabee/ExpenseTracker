@@ -4,7 +4,10 @@ var user2;
 const instance = require("../connection");
 
 exports.createExpense = async (req, res) => {
-  let data = await expense.model
+  /**
+   * * creates expenses info to be inserted to the db
+   */
+  await expense.model
     .create({
       uuid: req.body.uuid,
       expense_name: req.body.expense_name,
@@ -14,29 +17,39 @@ exports.createExpense = async (req, res) => {
       expense_date: req.body.expense_date,
     })
     .then((user) => {
-      if (!user) {
-        console.log("oopps");
-      } else {
+      if (user) {
+        /**
+         * * if item is successfully generated
+         */
+        /**
+         * * remove console log
+         */
         console.log("Expense Generated");
-        let data2 = expense.model
+        /**
+         * * Finds all the expenses of the user to be loaded when
+         * * redirected back to home
+         */
+        expense.model
           .findAll({
             where: {
               uuid: user.uuid,
             },
           })
           .then(function (user2) {
-            if (!user2) {
-              console.log("Expense Creation Failed");
-            } else {
+            if (user2) {
+              /**
+               * * When item is created, the SUM of all expenses
+               * * will also be obtained so that the updated
+               * * total amount will also be rendered in /home
+               */
               console.log("Expense Creation Successful");
 
-              let totalAmount = expense.model
+              expense.model
                 .findAll({
                   where: {
                     uuid: user.uuid,
                   },
                   attributes: [
-                    // "expense_category",
                     [
                       instance.sequelize.fn(
                         "sum",
@@ -45,13 +58,14 @@ exports.createExpense = async (req, res) => {
                       "total_amount",
                     ],
                   ],
-                  //group: ["expense_category"],
                 })
                 .then(function (totAmt) {
                   if (totAmt) {
-                    console.log("Yes amt");
-                    //console.log(totAmt);
-                    //req.session.user1 = user;
+                    /**
+                     * * After getting the sum it will be passed as req.session.totalAmt
+                     * * req.session.expense1 stores all the expenses of the user
+                     * * which will be rendered at /home
+                     */
                     req.session.expense1 = user2;
                     req.session.totalAmt = totAmt;
                     res.redirect("/home");
@@ -59,9 +73,6 @@ exports.createExpense = async (req, res) => {
                     console.log("No amt");
                   }
                 });
-
-              //req.session.expense1 = user2;
-              //res.redirect("/home");
             }
           });
       }
@@ -69,10 +80,12 @@ exports.createExpense = async (req, res) => {
 };
 
 exports.showEditPage = async (req, res) => {
-  console.log(req.query.user);
-  console.log(req.query.id);
-
-  let data = await expense.model
+  /**
+   * * When user chooses to edit an item, the item's id
+   * * is passed which will contain the data for that item
+   * * which will be rendered to editExpense.ejs
+   */
+  await expense.model
     .findOne({
       where: {
         id: req.query.id,
@@ -80,8 +93,6 @@ exports.showEditPage = async (req, res) => {
     })
     .then(function (user) {
       if (user) {
-        console.log(user.expense_category);
-        console.log(user.expense_note);
         res.render("editExpense.ejs", {
           userid: user.id,
           uuid: user.uuid,
@@ -98,15 +109,14 @@ exports.showEditPage = async (req, res) => {
 };
 
 exports.UpdateExpense = async (req, res) => {
-  //  console.log(req.body.expense_name);
-  //  console.log(req.body.expense_amount);
-  //  console.log(req.body.expense_category);
-  //  console.log(req.body.expense_note);
-  //  console.log(req.body.userid);
-  let data = await expense.model
+  /**
+   * * When edit button is pressed, the data
+   * * on the form will be used to update the item
+   * * in the db
+   */
+  await expense.model
     .update(
       {
-        //status: "completed",
         expense_name: req.body.expense_name,
         expense_amount: req.body.expense_amount,
         expense_category: req.body.expense_category,
@@ -120,29 +130,32 @@ exports.UpdateExpense = async (req, res) => {
       }
     )
     .then((user) => {
-      if (!user) {
-        console.log("Unable to update expense");
-      } else {
+      if (user) {
+        /**
+         * * When update is successful,
+         * * All expenses for that user's uuid will be collected
+         * * When redirected to /home, expenses list is updated
+         */
         console.log("Expense Updated");
-        let data2 = expense.model
+        expense.model
           .findAll({
             where: {
               uuid: req.body.uuid,
             },
           })
           .then((user2) => {
-            if (!user2) {
-              console.log("expense cant be found");
-            } else {
-              console.log("task found");
-
-              let totalAmount = expense.model
+            if (user2) {
+              console.log("expenses found");
+              /**
+               * * Get the sum of all expenses so that
+               * * total expenses rendered will also be updated
+               */
+              expense.model
                 .findAll({
                   where: {
                     uuid: req.body.uuid,
                   },
                   attributes: [
-                    // "expense_category",
                     [
                       instance.sequelize.fn(
                         "sum",
@@ -151,13 +164,9 @@ exports.UpdateExpense = async (req, res) => {
                       "total_amount",
                     ],
                   ],
-                  //group: ["expense_category"],
                 })
                 .then(function (totAmt) {
                   if (totAmt) {
-                    console.log("Yes amt");
-                    //console.log(totAmt);
-                    //req.session.user1 = user;
                     req.session.expense1 = user2;
                     req.session.totalAmt = totAmt;
                     res.redirect("/home");
@@ -165,9 +174,6 @@ exports.UpdateExpense = async (req, res) => {
                     console.log("No amt");
                   }
                 });
-
-              // req.session.expense1 = user2;
-              // res.redirect("/home");
             }
           });
       }
@@ -175,19 +181,25 @@ exports.UpdateExpense = async (req, res) => {
 };
 
 exports.deleteExpense = async (req, res) => {
-  console.log(req.query.user);
-  let data = await expense.model
+  /**
+   * * Using the id of the item,
+   * * the item will be destroyed using the
+   * * query below
+   */
+  await expense.model
     .destroy({
       where: {
         id: req.query.id,
       },
     })
     .then((user) => {
-      if (!user) {
-        console.log("oopps");
-      } else {
-        console.log("Expense Deleted");
-        let data2 = expense.model
+      if (user) {
+        /**
+         * * This query gets the items that
+         * * are not deleted yet (under the user's uuid)
+         * * which wil be loaded in /home
+         */
+        expense.model
           .findAll({
             where: {
               deletedAt: null,
@@ -195,18 +207,13 @@ exports.deleteExpense = async (req, res) => {
             },
           })
           .then((user2) => {
-            if (!user2) {
-              console.log("expense not found");
-            } else {
-              console.log("expense found");
-
-              let totalAmount = expense.model
+            if (user2) {
+              expense.model
                 .findAll({
                   where: {
                     uuid: req.query.user,
                   },
                   attributes: [
-                    // "expense_category",
                     [
                       instance.sequelize.fn(
                         "sum",
@@ -215,23 +222,14 @@ exports.deleteExpense = async (req, res) => {
                       "total_amount",
                     ],
                   ],
-                  //group: ["expense_category"],
                 })
                 .then(function (totAmt) {
                   if (totAmt) {
-                    console.log("Yes amt");
-                    //console.log(totAmt);
-                    //req.session.user1 = user;
                     req.session.expense1 = user2;
                     req.session.totalAmt = totAmt;
                     res.redirect("/home");
-                  } else {
-                    console.log("No amt");
                   }
                 });
-
-              // req.session.expense1 = user2;
-              // res.redirect("/home");
             }
           });
       }
@@ -239,8 +237,15 @@ exports.deleteExpense = async (req, res) => {
 };
 
 exports.sortByCategory = async (req, res) => {
-  // console.log(req.body.expense_category);
-  console.log(req.body.uuiduser);
+  /**
+   * * If 'Choose Here' option is chosen,
+   * * this will load all the expenses.
+   * * Otherwise, it will only load depending on the category
+   */
+
+  /**
+   * * If chosen option is 'Choose Here'
+   */
   if (
     req.body.expense_category != "Food and Beverage" &&
     req.body.expense_category != "Education" &&
@@ -248,7 +253,10 @@ exports.sortByCategory = async (req, res) => {
     req.body.expense_category != "Transportation" &&
     req.body.expense_category != "Miscellaneous"
   ) {
-    let data = await expense.model
+    /**
+     * * All expenses are loaded
+     */
+    await expense.model
       .findAll({
         where: {
           uuid: req.body.expense_category,
@@ -256,13 +264,15 @@ exports.sortByCategory = async (req, res) => {
       })
       .then(function (user) {
         if (user) {
-          let totalAmount = expense.model
+          /**
+           * * Sum of all expenses is also loaded
+           */
+          expense.model
             .findAll({
               where: {
                 uuid: req.body.expense_category,
               },
               attributes: [
-                // "expense_category",
                 [
                   instance.sequelize.fn(
                     "sum",
@@ -271,28 +281,27 @@ exports.sortByCategory = async (req, res) => {
                   "total_amount",
                 ],
               ],
-              //group: ["expense_category"],
             })
             .then(function (totAmt) {
               if (totAmt) {
-                console.log("Yes amt");
-                //console.log(totAmt);
-                //req.session.user1 = user;
+                /**
+                 * * Expenses are stored in req.session.expense1
+                 * * Total Amount of expenses is stored in req.session.totalAmt
+                 */
                 req.session.expense1 = user;
                 req.session.totalAmt = totAmt;
                 res.redirect("/home");
-              } else {
-                console.log("No amt");
               }
             });
-          // req.session.expense1 = user;
-          // res.redirect("/home");
         } else {
           console.log("No records found!");
         }
       });
   } else {
-    let data = await expense.model
+    /**
+     * * SELECTS expenses based on user's uuid AND chosen expense category
+     */
+    await expense.model
       .findAll({
         where: {
           uuid: req.body.uuiduser,
@@ -301,14 +310,16 @@ exports.sortByCategory = async (req, res) => {
       })
       .then(function (user) {
         if (user) {
-          let totalAmount = expense.model
+          /**
+           * * Gets total amount of expenses for chosen category
+           */
+          expense.model
             .findAll({
               where: {
                 uuid: req.body.uuiduser,
                 expense_category: req.body.expense_category,
               },
               attributes: [
-                // "expense_category",
                 [
                   instance.sequelize.fn(
                     "sum",
@@ -317,23 +328,14 @@ exports.sortByCategory = async (req, res) => {
                   "total_amount",
                 ],
               ],
-              //group: ["expense_category"],
             })
             .then(function (totAmt) {
               if (totAmt) {
-                console.log("Yes amt");
-                //console.log(totAmt);
-                //req.session.user1 = user;
                 req.session.expense1 = user;
                 req.session.totalAmt = totAmt;
                 res.redirect("/home");
-              } else {
-                console.log("No amt");
               }
             });
-
-          // req.session.expense1 = user;
-          // res.redirect("/home");
         } else {
           console.log("No records found!");
         }
