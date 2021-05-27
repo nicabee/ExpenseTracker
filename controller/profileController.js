@@ -4,6 +4,9 @@ const instance = require("../connection");
 const bcrypt = require("bcrypt");
 
 exports.showResetPassword = async (req, res) => {
+  /**
+   * * used for displaying the page for password reset
+   */
   await account.model
     .findOne({
       where: {
@@ -12,20 +15,20 @@ exports.showResetPassword = async (req, res) => {
     })
     .then(function (user) {
       if (user) {
-        // console.log(user.expense_category);
-        // console.log(user.expense_note);
-        // res.render("resetPassword.ejs");
         res.render("resetPassword.ejs", {
           username: user.username,
         });
-      } else {
-        console.log("User not found!");
       }
+      /**
+       * * renders the username on the password reset page
+       */
     });
 };
 
 exports.resetPassword = async (req, res) => {
-  //console.log(req.body.user);
+  /**
+   * * Looks for the account with the given username
+   */
   let salt = bcrypt.genSaltSync(10);
   await account.model
     .findOne({
@@ -35,39 +38,59 @@ exports.resetPassword = async (req, res) => {
     })
     .then(function (user) {
       if (user) {
+        /**
+         * * Compares if the old password entered and the one in the db matches
+         */
         bcrypt.compare(req.body.oldpassword, user.password).then((isMatch) => {
           if (isMatch) {
-            account.model
-              .update(
-                {
-                  password: bcrypt.hashSync(req.body.newpassword, salt),
-                },
-                {
-                  where: {
-                    username: req.body.user,
+            /**
+             * * if old password matches with password in DB, update to new password
+             * * Hash the new password before storing into DB
+             */
+
+            /**
+             * * Server side validation if passwords match
+             */
+            if (req.body.newpassword === req.body.confirmnewpassword) {
+              account.model
+                .update(
+                  {
+                    password: bcrypt.hashSync(req.body.newpassword, salt),
                   },
-                }
-              )
-              .then(function (userPass) {
-                if (userPass) {
-                  res.render("profile.ejs", {
-                    uuid: user.uuid,
-                    username: user.username,
-                    email_address: user.email_address,
-                  });
-                  console.log("Updated password");
-                } else {
-                  console.log("Unable to update password");
-                }
+                  {
+                    where: {
+                      username: req.body.user,
+                    },
+                  }
+                )
+                .then(function (userPass) {
+                  if (userPass) {
+                    res.render("profile.ejs", {
+                      uuid: user.uuid,
+                      username: user.username,
+                      email_address: user.email_address,
+                    });
+                  }
+                });
+            } else {
+              res.render("profile.ejs", {
+                uuid: user.uuid,
+                username: user.username,
+                email_address: user.email_address,
+                errors: "Your new passwords do not match!",
               });
+            }
           } else {
+            /**
+             * * If old password input does not match password in DB,
+             * * user is redirected back to profile page
+             */
             res.render("profile.ejs", {
               uuid: user.uuid,
               username: user.username,
               email_address: user.email_address,
               errors: "Password does not match current password",
             });
-            console.log("Password does not match current password");
           }
         });
       } else {
@@ -77,8 +100,9 @@ exports.resetPassword = async (req, res) => {
 };
 
 exports.showEditProfile = async (req, res) => {
-  //  console.log(req.query.username);
-
+  /**
+   * * used for displaying the page edit profile
+   */
   await account.model
     .findOne({
       where: {
@@ -87,15 +111,15 @@ exports.showEditProfile = async (req, res) => {
     })
     .then(function (user) {
       if (user) {
-        // console.log(user.expense_category);
-        // console.log(user.expense_note);
+        /**
+         * * Renders into username and email address fields the user's
+         * * current username and email address
+         */
         res.render("profile.ejs", {
           uuid: user.uuid,
           username: user.username,
           email_address: user.email_address,
         });
-      } else {
-        console.log("No records found!");
       }
     });
 };
