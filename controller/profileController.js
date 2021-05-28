@@ -125,29 +125,28 @@ exports.showEditProfile = async (req, res) => {
 };
 
 exports.editProfile = async (req, res) => {
-  //  console.log(req.body.username);
-  //  console.log(req.body.email_address);
-  //  console.log(req.body.user);
-  // console.log(req.body.uuid);
-  //console.log(req.body.email);
-
+  /**
+   * * if both username and email address wants to be changed
+   */
   if (
     req.body.user != req.body.username &&
     req.body.email != req.body.email_address
   ) {
-    console.log(req.body.username);
-    console.log(req.body.email_address);
-    console.log("I want to change both!");
+    /**
+     * * finds the account in the db given the original username
+     */
     account.model
       .findOne({
         where: {
-          //email_address: req.body.email_address,
           username: req.body.username,
         },
       })
       .then(function (isUserExists) {
         if (isUserExists) {
-          //username to be changed exists
+          /**
+           * * if the user exists, load its expenses too
+           */
+          console.log("Username exists!");
           expense.model
             .findAll({
               where: {
@@ -155,10 +154,13 @@ exports.editProfile = async (req, res) => {
               },
             })
             .then((user2) => {
-              if (!user2) {
-                console.log("no1");
-              } else {
-                console.log("yes1");
+              if (user2) {
+                /**
+                 * * user information is stored in req.session.user1
+                 * * user's expenses information is stored in req.session.expense1
+                 * * req.session.successful is undefined because username cannot
+                 * * be changed as it already exists in the DB.
+                 */
                 account.model
                   .findOne({
                     where: {
@@ -166,10 +168,7 @@ exports.editProfile = async (req, res) => {
                     },
                   })
                   .then((user3) => {
-                    if (!user3) {
-                      console.log("no11");
-                    } else {
-                      console.log("yes22");
+                    if (user3) {
                       req.session.user1 = user3;
                       req.session.expense1 = user2;
                       req.session.successful = undefined;
@@ -180,7 +179,12 @@ exports.editProfile = async (req, res) => {
               }
             });
         } else {
-          //new username doesnt exist
+          /**
+           * * if query is not able to select user information given the new username,
+           * * this executes.
+           * * Upon checking that new username is available to be used,
+           * * new email address has to be checked also.
+           */
           account.model
             .findOne({
               where: {
@@ -189,7 +193,11 @@ exports.editProfile = async (req, res) => {
             })
             .then(function (isEmailExists) {
               if (isEmailExists) {
-                //Email Address to be changed exists
+                /**
+                 * * If email to be changed exists, update cannot happen.
+                 * * Expenses of the user will be loaded so that it still appears
+                 * * when user is redirected to /home
+                 */
                 expense.model
                   .findAll({
                     where: {
@@ -197,10 +205,10 @@ exports.editProfile = async (req, res) => {
                     },
                   })
                   .then((user2) => {
-                    if (!user2) {
-                      console.log("no1");
-                    } else {
-                      console.log("yes1");
+                    if (user2) {
+                      /**
+                       * * Load the user's information from the DB
+                       */
                       account.model
                         .findOne({
                           where: {
@@ -208,10 +216,7 @@ exports.editProfile = async (req, res) => {
                           },
                         })
                         .then((user3) => {
-                          if (!user3) {
-                            console.log("no11");
-                          } else {
-                            console.log("yes22");
+                          if (user3) {
                             req.session.user1 = user3;
                             req.session.expense1 = user2;
                             req.session.successful = undefined;
@@ -223,7 +228,10 @@ exports.editProfile = async (req, res) => {
                     }
                   });
               } else {
-                //doesnt exist
+                /**
+                 * * If new email address does not exist, then both
+                 * * email and username can be updated.
+                 */
                 account.model
                   .update(
                     {
@@ -237,11 +245,10 @@ exports.editProfile = async (req, res) => {
                     }
                   )
                   .then((user) => {
-                    if (!user) {
-                      console.log("Unable to update your profile");
-                    } else {
-                      console.log("profile updated (email & username)");
-
+                    if (user) {
+                      /**
+                       * * Loading the user's expenses
+                       */
                       expense.model
                         .findAll({
                           where: {
@@ -249,10 +256,10 @@ exports.editProfile = async (req, res) => {
                           },
                         })
                         .then((user2) => {
-                          if (!user2) {
-                            console.log("no - email & user");
-                          } else {
-                            console.log("yes - email & user");
+                          if (user2) {
+                            /**
+                             * * Load the user's information
+                             */
                             account.model
                               .findOne({
                                 where: {
@@ -260,10 +267,7 @@ exports.editProfile = async (req, res) => {
                                 },
                               })
                               .then((user3) => {
-                                if (!user3) {
-                                  console.log("no1 - email & user");
-                                } else {
-                                  console.log("yes2 - email & user");
+                                if (user3) {
                                   req.session.user1 = user3;
                                   req.session.expense1 = user2;
                                   req.session.error = undefined;
@@ -281,9 +285,11 @@ exports.editProfile = async (req, res) => {
         }
       });
   } else if (req.body.email != req.body.email_address) {
-    console.log(req.body.username);
-    console.log("Change my email address ONLY");
-    let data0 = await account.model
+    /**
+     * * If user only wants to change email address
+     * * First, check if new email address exists in DB
+     */
+    await account.model
       .findOne({
         where: {
           email_address: req.body.email_address,
@@ -291,7 +297,11 @@ exports.editProfile = async (req, res) => {
       })
       .then(function (userAuth) {
         if (userAuth) {
-          //username to be changed exists
+          /**
+           * * Load the user expenses so that it displays in /home
+           * * At this point, update is not possible as new email address
+           * * already exists in the DB
+           */
           expense.model
             .findAll({
               where: {
@@ -299,10 +309,10 @@ exports.editProfile = async (req, res) => {
               },
             })
             .then((user2) => {
-              if (!user2) {
-                console.log("no1");
-              } else {
-                console.log("yes1");
+              if (user2) {
+                /**
+                 * * Load the user's information
+                 */
                 account.model
                   .findOne({
                     where: {
@@ -310,10 +320,11 @@ exports.editProfile = async (req, res) => {
                     },
                   })
                   .then((user3) => {
-                    if (!user3) {
-                      console.log("no11");
-                    } else {
-                      console.log("yes22");
+                    if (user3) {
+                      /**
+                       * * error message will be returned as email
+                       * * was unsuccesfully changed
+                       */
                       req.session.user1 = user3;
                       req.session.expense1 = user2;
                       req.session.successful = undefined;
@@ -324,7 +335,9 @@ exports.editProfile = async (req, res) => {
               }
             });
         } else {
-          //doesnt exist
+          /**
+           * * If new email address is available for use
+           */
           account.model
             .update(
               {
@@ -337,11 +350,10 @@ exports.editProfile = async (req, res) => {
               }
             )
             .then((user) => {
-              if (!user) {
-                console.log("Unable to update your profile");
-              } else {
-                console.log("profile updated (email)");
-
+              if (user) {
+                /**
+                 * * Load the user's expenses
+                 */
                 expense.model
                   .findAll({
                     where: {
@@ -349,10 +361,10 @@ exports.editProfile = async (req, res) => {
                     },
                   })
                   .then((user2) => {
-                    if (!user2) {
-                      console.log("no - email");
-                    } else {
-                      console.log("yes - email");
+                    if (user2) {
+                      /**
+                       * * Load the user's information (updated)
+                       */
                       account.model
                         .findOne({
                           where: {
@@ -360,10 +372,7 @@ exports.editProfile = async (req, res) => {
                           },
                         })
                         .then((user3) => {
-                          if (!user3) {
-                            console.log("no1 - email");
-                          } else {
-                            console.log("yes2 - email");
+                          if (user3) {
                             req.session.user1 = user3;
                             req.session.expense1 = user2;
                             req.session.error = undefined;
@@ -379,9 +388,13 @@ exports.editProfile = async (req, res) => {
         }
       });
   } else if (req.body.user != req.body.username) {
-    console.log(req.body.email_address);
-    console.log("Change my Username ONLY");
-    let data0 = await account.model
+    /**
+     * * if user wants to change the username only
+     */
+    /**
+     * *check if new username exists in the DB
+     */
+    await account.model
       .findOne({
         where: {
           username: req.body.username,
@@ -389,7 +402,10 @@ exports.editProfile = async (req, res) => {
       })
       .then(function (userAuth) {
         if (userAuth) {
-          //username to be changed exists
+          /**
+           * * If new username exists, update cannot go through
+           * * Load the user's expenses
+           */
           expense.model
             .findAll({
               where: {
@@ -397,10 +413,10 @@ exports.editProfile = async (req, res) => {
               },
             })
             .then((user2) => {
-              if (!user2) {
-                console.log("no1 - username");
-              } else {
-                console.log("yes1 - username");
+              if (user2) {
+                /**
+                 * * Load the user's information
+                 */
                 account.model
                   .findOne({
                     where: {
@@ -408,10 +424,10 @@ exports.editProfile = async (req, res) => {
                     },
                   })
                   .then((user3) => {
-                    if (!user3) {
-                      console.log("no11 - username");
-                    } else {
-                      console.log("yes22 - username");
+                    if (user3) {
+                      /**
+                       * * error message is displayed in /home
+                       */
                       req.session.user1 = user3;
                       req.session.expense1 = user2;
                       req.session.successful = undefined;
@@ -422,7 +438,9 @@ exports.editProfile = async (req, res) => {
               }
             });
         } else {
-          //doesnt exist
+          /**
+           * * if new username is available for use, update
+           */
           account.model
             .update(
               {
@@ -435,11 +453,10 @@ exports.editProfile = async (req, res) => {
               }
             )
             .then((user) => {
-              if (!user) {
-                console.log("Unable to update your profile");
-              } else {
-                console.log("profile updated (username)");
-
+              if (user) {
+                /**
+                 * * Load the expenses so that it displays in /home too
+                 */
                 expense.model
                   .findAll({
                     where: {
@@ -447,10 +464,10 @@ exports.editProfile = async (req, res) => {
                     },
                   })
                   .then((user2) => {
-                    if (!user2) {
-                      console.log("no - username");
-                    } else {
-                      console.log("yes - username ");
+                    if (user2) {
+                      /**
+                       * * Load the updated user's information
+                       */
                       account.model
                         .findOne({
                           where: {
@@ -458,10 +475,7 @@ exports.editProfile = async (req, res) => {
                           },
                         })
                         .then((user3) => {
-                          if (!user3) {
-                            console.log("no1 - username");
-                          } else {
-                            console.log("yes2 - username");
+                          if (user3) {
                             req.session.user1 = user3;
                             req.session.expense1 = user2;
                             req.session.error = undefined;
@@ -477,10 +491,12 @@ exports.editProfile = async (req, res) => {
         }
       });
   } else {
-    // console.log("lolers");
-    // console.log(req.body.username);
-    // console.log(req.body.email_address);
-
+    /**
+     * * If user does not change anything but clicks on submit instead of back
+     */
+    /**
+     * * Load user info
+     */
     await account.model
       .findOne({
         where: {
@@ -489,7 +505,9 @@ exports.editProfile = async (req, res) => {
       })
       .then(function (user) {
         if (user) {
-          //if username exists, load the expenses
+          /**
+           * * user exists, load expenses
+           */
           expense.model
             .findAll({
               where: {
@@ -498,13 +516,15 @@ exports.editProfile = async (req, res) => {
             })
             .then(function (user2) {
               if (user2) {
+                /**
+                 * * Once expenses are queried, get the total sum of expenses
+                 */
                 expense.model
                   .findAll({
                     where: {
                       uuid: user.uuid,
                     },
                     attributes: [
-                      // "expense_category",
                       [
                         instance.sequelize.fn(
                           "sum",
@@ -513,29 +533,19 @@ exports.editProfile = async (req, res) => {
                         "total_amount",
                       ],
                     ],
-                    //group: ["expense_category"],
                   })
                   .then(function (totAmt) {
                     if (totAmt) {
-                      console.log("Yes amt");
-
-                      console.log("yess");
                       req.session.user1 = user;
                       req.session.expense1 = user2;
                       req.session.totalAmt = totAmt;
                       req.session.successful = undefined;
                       req.session.error = undefined;
                       res.redirect("/home");
-                    } else {
-                      console.log("No amt");
                     }
                   });
-              } else {
-                console.log("expenses not found");
               }
             });
-        } else {
-          console.log("account not found");
         }
       });
   }
