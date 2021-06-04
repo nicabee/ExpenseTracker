@@ -9,7 +9,7 @@ exports.createExpense = async (req, res) => {
    */
   await expense.model
     .create({
-      uuid: req.body.uuid,
+      uuid: req.params.useruuid,
       expense_name: req.body.expense_name,
       expense_amount: req.body.expense_amount,
       expense_category: req.body.expense_category,
@@ -125,7 +125,7 @@ exports.UpdateExpense = async (req, res) => {
       },
       {
         where: {
-          id: req.body.userid,
+          id: req.params.userid,
         },
       }
     )
@@ -140,7 +140,7 @@ exports.UpdateExpense = async (req, res) => {
         expense.model
           .findAll({
             where: {
-              uuid: req.body.uuid,
+              uuid: req.params.uuid,
             },
           })
           .then((user2) => {
@@ -153,7 +153,7 @@ exports.UpdateExpense = async (req, res) => {
               expense.model
                 .findAll({
                   where: {
-                    uuid: req.body.uuid,
+                    uuid: req.params.uuid,
                   },
                   attributes: [
                     [
@@ -170,8 +170,6 @@ exports.UpdateExpense = async (req, res) => {
                     req.session.expense1 = user2;
                     req.session.totalAmt = totAmt;
                     res.redirect("/home");
-                  } else {
-                    console.log("No amt");
                   }
                 });
             }
@@ -303,7 +301,7 @@ exports.sortByCategory = async (req, res) => {
     await expense.model
       .findAll({
         where: {
-          uuid: req.body.uuiduser,
+          uuid: req.params.uuid,
           expense_category: req.body.expense_category,
         },
       })
@@ -315,7 +313,7 @@ exports.sortByCategory = async (req, res) => {
           expense.model
             .findAll({
               where: {
-                uuid: req.body.uuiduser,
+                uuid: req.params.uuid,
                 expense_category: req.body.expense_category,
               },
               attributes: [
@@ -340,7 +338,7 @@ exports.sortByCategory = async (req, res) => {
           expense.model
             .findAll({
               where: {
-                uuid: req.body.uuiduser,
+                uuid: req.params.uuid,
                 expense_category: req.body.expense_category,
               },
             })

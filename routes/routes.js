@@ -18,9 +18,6 @@ let initWebRoutes = (app) => {
     res.render("index");
   });
 
-  // router.get("/register", (req, res) => {
-  //   res.render("register");
-  // });
   router.get("/register", accountController.showRegisterPage);
 
   router.get("/home", (req, res) => {
@@ -46,10 +43,10 @@ let initWebRoutes = (app) => {
   });
 
   router.get("/update", expenseController.showEditPage);
-  router.post("/update", expenseController.UpdateExpense);
-  router.post("/sortByCategory", expenseController.sortByCategory);
+  router.post("/update/:userid/:uuid", expenseController.UpdateExpense);
+  router.post("/sortByCategory/:uuid", expenseController.sortByCategory);
   router.get("/delete", expenseController.deleteExpense);
-  router.post("/add", expenseController.createExpense);
+  router.post("/add/:useruuid", expenseController.createExpense);
   router.post("/register", accountController.createAccount);
 
   router.get("/editProfile", profileController.showEditProfile);
