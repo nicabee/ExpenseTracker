@@ -9,7 +9,6 @@ exports.loginAccount = async (req, res) => {
    * *called for user login
    */
 
-  console.log("loginAccount");
   await account.model
     .findOne({
       where: {
@@ -39,13 +38,12 @@ exports.loginAccount = async (req, res) => {
                    *
                    */
 
-                  console.log("Login Failed");
                   res.render("index.ejs", { err: "Expenses not found" });
                 } else {
                   /**
                    * *If login is successful, this is executed
                    */
-                  console.log("Login Successful");
+
                   /**
                    * *Query for the sum of total expenses
                    */
@@ -88,56 +86,78 @@ exports.loginAccount = async (req, res) => {
     });
 };
 
+exports.showRegisterPage = async (req, res) => {
+  let newUser = {
+    username: "",
+    email_address: "",
+  };
+  return res.render("register.ejs", {
+    newUser: newUser,
+  });
+};
 exports.createAccount = async (req, res) => {
-  try {
-    const tok = uuidv4(); /* generates UUID */
-    if (req.body.password === req.body.passwordConfirmation) {
-      let salt = bcrypt.genSaltSync(10); /* for password hashing */
-      await account.model
-        .create({
-          uuid: tok,
-          username: req.body.username,
-          email_address: req.body.email_address,
-          password: bcrypt.hashSync(req.body.password, salt),
-        })
-        .then((user) => {
-          /**
-           *  ! to be erased
-           */
+  /**
+   * * Saves the username and email address in case of errors
+   * * Is rendered when register.ejs is shown again
+   */
+  let newUser = {
+    username: req.body.username,
+    email_address: req.body.email_address,
+  };
 
-          console.log("New auto-generated ID:", user.id);
-          res.render("index.ejs", {
-            status: "Successfully created an account!",
-          });
+  await account.model
+    .findOne({
+      where: {
+        username: req.body.username,
+      },
+    })
+    .then(function (user) {
+      if (user) {
+        res.render("register.ejs", {
+          newUser: newUser,
+          errors: "Username exists!",
         });
-    } else {
-      /* returns user to register page */
-      res.render("register.ejs", { errors: "Passwords do not match!" });
-    }
-  } catch (err) {
-    /**
-     * *When account to be registered has credentials that already exist
-     */
-    await account.model
-      .findOne({
-        where: {
-          username: req.body.username,
-        },
-      })
-      .then(function (user) {
-        if (user) {
-          res.render("register.ejs", { errors: "Username exists!" });
-        } else {
-          account.model
-            .findOne({
-              where: {
-                email_address: req.body.email_address,
-              },
-            })
-            .then(function (user2) {
-              res.render("register.ejs", { errors: "Email Address exists!" });
-            });
-        }
-      });
-  }
+      } else {
+        account.model
+          .findOne({
+            where: {
+              email_address: req.body.email_address,
+            },
+          })
+          .then(function (userEmailCheck) {
+            if (userEmailCheck) {
+              res.render("register.ejs", {
+                newUser: newUser,
+                errors: "Email Address exists!",
+              });
+            } else {
+              const tok = uuidv4(); /* generates UUID */
+              if (req.body.password === req.body.passwordConfirmation) {
+                let salt = bcrypt.genSaltSync(10); /* for password hashing */
+                account.model
+                  .create({
+                    uuid: tok,
+                    username: req.body.username,
+                    email_address: req.body.email_address,
+                    password: bcrypt.hashSync(req.body.password, salt),
+                  })
+                  .then((user) => {
+                    /**
+                     *  ! to be erased
+                     */
+
+                    res.render("index.ejs", {
+                      status: "Successfully created an account!",
+                    });
+                  });
+              } else {
+                /* returns user to register page */
+                res.render("register.ejs", {
+                  errors: "Passwords do not match!",
+                });
+              }
+            }
+          });
+      }
+    });
 };

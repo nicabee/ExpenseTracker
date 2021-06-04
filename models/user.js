@@ -21,7 +21,8 @@ const user = instance.sequelize.define(
     },
     username: {
       type: DataTypes.STRING,
-      unique: true,
+      //unique: true,
+      unique: "username_deletedAt_const",
       allowNull: false,
     },
     password: {

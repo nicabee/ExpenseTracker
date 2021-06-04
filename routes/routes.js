@@ -18,9 +18,10 @@ let initWebRoutes = (app) => {
     res.render("index");
   });
 
-  router.get("/register", (req, res) => {
-    res.render("register");
-  });
+  // router.get("/register", (req, res) => {
+  //   res.render("register");
+  // });
+  router.get("/register", accountController.showRegisterPage);
 
   router.get("/home", (req, res) => {
     var message = req.session.user1;
@@ -52,10 +53,10 @@ let initWebRoutes = (app) => {
   router.post("/register", accountController.createAccount);
 
   router.get("/editProfile", profileController.showEditProfile);
-  router.post("/editProfile", profileController.editProfile);
+  router.post("/editProfile/:user/:email/:uuid", profileController.editProfile);
 
   router.get("/resetPassword", profileController.showResetPassword);
-  router.post("/resetPassword", profileController.resetPassword);
+  router.post("/resetPassword/:username", profileController.resetPassword);
 
   router.post("/login", accountController.loginAccount);
 

@@ -45,14 +45,18 @@
             <center><h5 style="color:red"> <div class="alert alert-danger"><%= errors %></div> </h5></center>
            <% }%>
                 <label for="username" class="login100-form-header">Username: </label>
-                <div class="wrap-input100 m-b-25">    
-                    <input type="username" name="username" class="input100" id="username" placeholder="Enter Username"  required>
-                </div>
+                <div class="wrap-input100 m-b-25"> 
+                   
+                    <input type="username" name="username" class="input100" id="username" placeholder="Enter Username" value="<%=newUser.username%>" required>
+                  
+                  </div>
                 
                 <label for="email_address" class="login100-form-header">Email Address: </label>
                 <div class="wrap-input100 m-b-25">
-                    <input type="email" name="email_address" class="input100" id="email_address" placeholder="Enter Email Address"  required>
-                </div>
+  
+                    <input type="email" name="email_address" class="input100" id="email_address" placeholder="Enter Email Address" value="<%=newUser.email_address%>" required>
+
+                  </div>
                 
                 <label for="password" class="login100-form-header">Password: </label>
                 <div class="wrap-input100 m-b-25">

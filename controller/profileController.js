@@ -33,7 +33,7 @@ exports.resetPassword = async (req, res) => {
   await account.model
     .findOne({
       where: {
-        username: req.body.user,
+        username: req.params.username,
       },
     })
     .then(function (user) {
@@ -59,7 +59,7 @@ exports.resetPassword = async (req, res) => {
                   },
                   {
                     where: {
-                      username: req.body.user,
+                      username: req.params.username,
                     },
                   }
                 )
@@ -129,8 +129,8 @@ exports.editProfile = async (req, res) => {
    * * if both username and email address wants to be changed
    */
   if (
-    req.body.user != req.body.username &&
-    req.body.email != req.body.email_address
+    req.params.user != req.body.username &&
+    req.params.email != req.body.email_address
   ) {
     /**
      * * finds the account in the db given the original username
@@ -150,7 +150,7 @@ exports.editProfile = async (req, res) => {
           expense.model
             .findAll({
               where: {
-                uuid: req.body.uuid,
+                uuid: req.params.uuid,
               },
             })
             .then((user2) => {
@@ -164,7 +164,7 @@ exports.editProfile = async (req, res) => {
                 account.model
                   .findOne({
                     where: {
-                      uuid: req.body.uuid,
+                      uuid: req.params.uuid,
                     },
                   })
                   .then((user3) => {
@@ -201,7 +201,7 @@ exports.editProfile = async (req, res) => {
                 expense.model
                   .findAll({
                     where: {
-                      uuid: req.body.uuid,
+                      uuid: req.params.uuid,
                     },
                   })
                   .then((user2) => {
@@ -212,7 +212,7 @@ exports.editProfile = async (req, res) => {
                       account.model
                         .findOne({
                           where: {
-                            uuid: req.body.uuid,
+                            uuid: req.params.uuid,
                           },
                         })
                         .then((user3) => {
@@ -240,7 +240,7 @@ exports.editProfile = async (req, res) => {
                     },
                     {
                       where: {
-                        uuid: req.body.uuid,
+                        uuid: req.params.uuid,
                       },
                     }
                   )
@@ -252,7 +252,7 @@ exports.editProfile = async (req, res) => {
                       expense.model
                         .findAll({
                           where: {
-                            uuid: req.body.uuid,
+                            uuid: req.params.uuid,
                           },
                         })
                         .then((user2) => {
@@ -263,7 +263,7 @@ exports.editProfile = async (req, res) => {
                             account.model
                               .findOne({
                                 where: {
-                                  uuid: req.body.uuid,
+                                  uuid: req.params.uuid,
                                 },
                               })
                               .then((user3) => {
@@ -284,7 +284,7 @@ exports.editProfile = async (req, res) => {
             });
         }
       });
-  } else if (req.body.email != req.body.email_address) {
+  } else if (req.params.email != req.body.email_address) {
     /**
      * * If user only wants to change email address
      * * First, check if new email address exists in DB
@@ -305,7 +305,7 @@ exports.editProfile = async (req, res) => {
           expense.model
             .findAll({
               where: {
-                uuid: req.body.uuid,
+                uuid: req.params.uuid,
               },
             })
             .then((user2) => {
@@ -316,7 +316,7 @@ exports.editProfile = async (req, res) => {
                 account.model
                   .findOne({
                     where: {
-                      uuid: req.body.uuid,
+                      uuid: req.params.uuid,
                     },
                   })
                   .then((user3) => {
@@ -345,7 +345,7 @@ exports.editProfile = async (req, res) => {
               },
               {
                 where: {
-                  username: req.body.user,
+                  username: req.params.user,
                 },
               }
             )
@@ -357,7 +357,7 @@ exports.editProfile = async (req, res) => {
                 expense.model
                   .findAll({
                     where: {
-                      uuid: req.body.uuid,
+                      uuid: req.params.uuid,
                     },
                   })
                   .then((user2) => {
@@ -368,7 +368,7 @@ exports.editProfile = async (req, res) => {
                       account.model
                         .findOne({
                           where: {
-                            uuid: req.body.uuid,
+                            uuid: req.params.uuid,
                           },
                         })
                         .then((user3) => {
@@ -387,7 +387,7 @@ exports.editProfile = async (req, res) => {
             });
         }
       });
-  } else if (req.body.user != req.body.username) {
+  } else if (req.params.user != req.body.username) {
     /**
      * * if user wants to change the username only
      */
@@ -409,7 +409,7 @@ exports.editProfile = async (req, res) => {
           expense.model
             .findAll({
               where: {
-                uuid: req.body.uuid,
+                uuid: req.params.uuid,
               },
             })
             .then((user2) => {
@@ -420,7 +420,7 @@ exports.editProfile = async (req, res) => {
                 account.model
                   .findOne({
                     where: {
-                      uuid: req.body.uuid,
+                      uuid: req.params.uuid,
                     },
                   })
                   .then((user3) => {
@@ -448,7 +448,7 @@ exports.editProfile = async (req, res) => {
               },
               {
                 where: {
-                  username: req.body.user,
+                  username: req.params.user,
                 },
               }
             )
@@ -460,7 +460,7 @@ exports.editProfile = async (req, res) => {
                 expense.model
                   .findAll({
                     where: {
-                      uuid: req.body.uuid,
+                      uuid: req.params.uuid,
                     },
                   })
                   .then((user2) => {
@@ -471,7 +471,7 @@ exports.editProfile = async (req, res) => {
                       account.model
                         .findOne({
                           where: {
-                            uuid: req.body.uuid,
+                            uuid: req.params.uuid,
                           },
                         })
                         .then((user3) => {
