@@ -44,6 +44,7 @@ nodemon app.js
 - Delete expenses
 - View expenses (All or by category)
 - Edit profile information
+- Set available balance to be spent
 
 ## Project Status
 
