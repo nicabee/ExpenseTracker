@@ -24,7 +24,7 @@ exports.createExpense = async (req, res) => {
         /**
          * * remove console log
          */
-        console.log("Expense Generated");
+       
         /**
          * * Finds all the expenses of the user to be loaded when
          * * redirected back to home
@@ -42,7 +42,7 @@ exports.createExpense = async (req, res) => {
                * * will also be obtained so that the updated
                * * total amount will also be rendered in /home
                */
-              console.log("Expense Creation Successful");
+           
 
               expense.model
                 .findAll({

@@ -19,20 +19,25 @@
     <div class="container">
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
+          
+          <h1 class="display-4">Expenses Tracker</h1>
+          <h3 style="margin-top:50px;">Welcome <%= data.username %>!</h3>
+          <h3 style="margin-top:50px;">Your Current Available Balance is: <%= balance.totalAvailBalance %></h3>
+          <h3 style="margin-top:50px;">UUID: <%= data.uuid %>!</h3>
+          <h3 style="margin-top:50px;">Total: <%= totalExpenses[0].total_amount %></h3>
+          
           <%  if( typeof(status)!= 'undefined'  ){ %>
             <center> <h5 style="color:green"> <div class="alert alert-success"><%= status%> </div></h5></center>
            <% }%>
            <%  if( typeof(err)!= 'undefined'  ){ %>
              <center><h5 style="color:red"><div class="alert alert-danger"> <%= err%></div> </h5></center>
            <% }%>
-          <h1 class="display-4">Expenses Tracker</h1>
-          <h3 style="margin-top:50px;">Welcome <%= data.username %>!</h3>
-          <h3 style="margin-top:50px;">UUID: <%= data.uuid %>!</h3>
-          <h3 style="margin-top:50px;">Total: <%= totalExpenses[0].total_amount %></h3>
-          
           <div class="row">
             <center>
-              <button type="button" class="btn btn-primary" ><a href="/add" style="color:white !important;">Add Task</a></button>
+              <button type="button" class="btn btn-primary" ><a href="/add" style="color:white !important;">Add Expense</a></button>
+            </center> <br><br>
+            <center>
+              <button type="button" class="btn btn-primary" ><a href="/setBalance/<%= data.uuid %>" style="color:white !important;">Edit Available Balance</a></button>
             </center> <br><br>
             <form action="/sortByCategory/<%= data.uuid %>" method="POST" id="sortByCategory">
               <div class="form-group">

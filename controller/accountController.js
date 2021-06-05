@@ -2,6 +2,7 @@ const account = require("../models/user");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const expense = require("../models/expense");
+const balance = require("../models/balances");
 const instance = require("../connection");
 
 exports.loginAccount = async (req, res) => {
@@ -64,15 +65,23 @@ exports.loginAccount = async (req, res) => {
                     })
                     .then(function (totAmt) {
                       if (totAmt) {
-                        req.session.user1 =
-                          user; /* passing the user information to /home */
-                        req.session.expense1 =
-                          user2; /* passing the expenses information to /home */
-                        req.session.totalAmt =
-                          totAmt; /* passing the total expenses amount to /home */
-                        res.redirect("/home");
-                      } else {
-                        console.log("No amt");
+                        balance.model
+                          .findOne({
+                            where: {
+                              uuid: user.uuid,
+                            },
+                          })
+                          .then(function (userBalance) {
+                            req.session.userBalance =
+                              userBalance; /* passing the current avail balance of the user */
+                            req.session.user1 =
+                              user; /* passing the user information to /home */
+                            req.session.expense1 =
+                              user2; /* passing the expenses information to /home */
+                            req.session.totalAmt =
+                              totAmt; /* passing the total expenses amount to /home */
+                            res.redirect("/home");
+                          });
                       }
                     });
                 }
@@ -145,10 +154,19 @@ exports.createAccount = async (req, res) => {
                     /**
                      *  ! to be erased
                      */
+                    balance.model
+                      .create({
+                        uuid: tok,
+                        totalAvailBalance: 0,
+                      })
+                      .then((userCreate) => {
+                        res.render("index.ejs", {
+                          status: "Successfully created an account!",
+                        });
 
-                    res.render("index.ejs", {
-                      status: "Successfully created an account!",
-                    });
+                        // res.render("index.ejs", {
+                        //   status: "Successfully created an account!",
+                      });
                   });
               } else {
                 /* returns user to register page */

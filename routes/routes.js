@@ -3,6 +3,7 @@ const router = express.Router();
 const accountController = require("../controller/accountController");
 const expenseController = require("../controller/expenseController");
 const profileController = require("../controller/profileController");
+const balanceController = require("../controller/balanceController");
 var session = require("express-session");
 
 let initWebRoutes = (app) => {
@@ -27,6 +28,7 @@ let initWebRoutes = (app) => {
     var successful = req.session.successful;
     var total = req.session.totalAmt;
     var retmsg = req.session.returnmsg;
+    var bal = req.session.userBalance;
     res.render("home", {
       data: message,
       expenses: expense,
@@ -34,6 +36,7 @@ let initWebRoutes = (app) => {
       status: successful,
       totalExpenses: total,
       returns: retmsg,
+      balance: bal,
     });
   });
 
@@ -51,6 +54,9 @@ let initWebRoutes = (app) => {
 
   router.get("/editProfile", profileController.showEditProfile);
   router.post("/editProfile/:user/:email/:uuid", profileController.editProfile);
+
+  router.get("/setBalance/:uuid", balanceController.showEditBalance);
+  router.post("/setBalance/:uuid", balanceController.editBalance);
 
   router.get("/resetPassword", profileController.showResetPassword);
   router.post("/resetPassword/:username", profileController.resetPassword);
