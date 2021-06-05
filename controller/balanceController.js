@@ -4,8 +4,6 @@ const balance = require("../models/balances");
 const instance = require("../connection");
 
 exports.showEditBalance = async (req, res) => {
-  console.log("u want to show edit balance");
-  console.log(req.params.uuid);
   await balance.model
     .findOne({
       where: {
@@ -24,10 +22,6 @@ exports.showEditBalance = async (req, res) => {
 };
 
 exports.editBalance = async (req, res) => {
-  console.log("u want to edit balance");
-  console.log(req.params.uuid);
-  console.log(req.body.availablebalance);
-
   balance.model
     .update(
       {
