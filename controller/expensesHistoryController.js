@@ -13,6 +13,7 @@ exports.showHistory = async (req, res) => {
     })
     .then((userHistory) => {
       res.render("expensesHistory.ejs", {
+        uuid: req.params.uuid,
         username: req.params.username,
         expenses: userHistory,
       });
