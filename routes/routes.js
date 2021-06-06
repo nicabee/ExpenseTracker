@@ -4,6 +4,7 @@ const accountController = require("../controller/accountController");
 const expenseController = require("../controller/expenseController");
 const profileController = require("../controller/profileController");
 const balanceController = require("../controller/balanceController");
+const historyController = require("../controller/expensesHistoryController");
 var session = require("express-session");
 
 let initWebRoutes = (app) => {
@@ -57,6 +58,8 @@ let initWebRoutes = (app) => {
 
   router.get("/setBalance/:uuid", balanceController.showEditBalance);
   router.post("/setBalance/:uuid", balanceController.editBalance);
+
+  router.get("/expensesHistory/:uuid/:username", historyController.showHistory);
 
   router.get("/resetPassword", profileController.showResetPassword);
   router.post("/resetPassword/:username", profileController.resetPassword);
