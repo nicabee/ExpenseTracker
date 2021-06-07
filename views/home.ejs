@@ -98,9 +98,11 @@
                 </h5>
         <% }%>
           <h3 style="margin-top:20px;">Total Expenses: ₱<%= totalExpenses[0].total_amount %></h3>
-              <h3 style="margin-top:10px;">Available balance: ₱<%= balance.totalAvailBalance %></h3>
-              <% if(totalExpenses[0].total_amount >= balance.totalAvailBalance){ %>
-                <p class="spendmore">You have spent more than the amount you set! Spend less!</p>
+              <h3 style="margin-top:10px;">Available balance: ₱<%= balance.totalAvailBalance %></h3>              
+                <% if(totalExpenses[0].total_amount > balance.totalAvailBalance){ %>
+                <p class="spendmore">Oops! You have spent more than the amount you set. Lessen your spending now.</p>
+                <%} else if(totalExpenses[0].total_amount == balance.totalAvailBalance){ %>
+                <p class="spendlimit">You have reached your limit! Be careful.</p>
                 <% } else { %>
                 <p class="spendless">You have spent less than the amount you set. Spend wisely!</p>
                 <% } %>
