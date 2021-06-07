@@ -525,3 +525,15 @@ iframe {
 #buttoncontainer {
   margin-left: 170px;
 }
+
+.spendless {
+  color: lightgreen;
+  font-size: 20px;
+  text-align: center;
+}
+
+.spendmore {
+  color: maroon;
+  font-size: 20px;
+  text-align: center;
+}
