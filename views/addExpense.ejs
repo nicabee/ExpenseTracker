@@ -39,51 +39,52 @@
 <body>
     <div class="container-login100" style="background-image: url('images/japan.png');">
         <div class="wrap-login200">
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h1 class="display-4">Create A New Item</h1>
-                    <h4>Fill the form below to add a new item</h4>
-                </div>
-            </div>
+            <span class="login100-form-title p-b-37" style="margin-top:50px;">
+                ADD EXPENSE
+               </span>
             <div class="container">
                 <div class="row justify-content-center">
                     <form action="/add/<%= data.uuid %>" method="POST" id="add">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Expense Name:</label>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail1" class="login100-form-header">Expense Name: </label>
                             <input type="text" name="expense_name" class="form-control" id="expense_name" aria-describedby="emailHelp" placeholder="Enter Expense Name" required>
                         </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Expense Amount:</label>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail1" class="login100-form-header">Expense Amount: </label>
                             <input type="number" name="expense_amount" class="form-control" id="expense_amount" placeholder="Enter Expense Amount" min="0.01" step="0.01" required>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Expense Category</label>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail1" class="login100-form-header">Expense Category: </label>
                             <select class="form-control" id="exampleFormControlSelect1" name="expense_category">
-                  <option>Food and Beverage</option>
-                  <option>Education</option>
-                  <option>Home</option>
-                  <option>Transportation</option>
-                  <option>Miscellaneous</option>
-                </select>
+                                <option>Food and Beverage</option>
+                                <option>Education</option>
+                                <option>Home</option>
+                                <option>Transportation</option>
+                                <option>Miscellaneous</option>
+                            </select>
                         </div>
                         <div class="form-group row">
-                            <label for="example-date-input" class="col-2 col-form-label">Expense Date</label>
+                            <label for="exampleInputEmail1" class="login100-form-header">  Expense Date: </label>
                             <div class="col-10">
                                 <input class="form-control" type="date" id="example-date-input" name="expense_date" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Expense Note:</label>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail1" class="login100-form-header">Expense Note: </label>
                             <textarea class="form-control" form="add" name="expense_note" id="exampleFormControlTextarea1" rows="5"></textarea>
                         </div>
-                        <div style="margin-top: 10px;">
-                            <center>
-                                <input type="hidden" name="uuid" value='<%= data.uuid %>'>
-                                <button type="submit" class="btn btn-primary">Add</button>
-                                <button type="submit" class="btn btn-secondary"><a href='/home' style="color: white;">Go Back to To Do List</button></a>
-                            </center>
+                        <div class="container-login100-form-btn">
+                            <button type="submit" class="login100-form-btn">
+                              Submit
+                            </button>
                         </div>
+                        <br>
+                        <div class="container-login100-form-btn">
+                            <a href="/home" class="loginnow100-form-btn">
+                              Back
+                            </a>
+                        </div>
+                        <br>
                     </form>
                 </div>
             </div>
