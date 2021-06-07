@@ -53,7 +53,21 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/tinychanges.css">
     <!--===============================================================================================-->
+    
+   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script>
+      function showPassword() {
+        var passwordField = document.getElementById("password_input");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      }
+    </script> 
+
   </head>
 
   <head>
@@ -105,16 +119,23 @@
             <span class="focus-input100"></span>
           </div>
 
-          <div class="wrap-input100 m-b-25">
+          <div class="wrap-input100 m-b-25 input-group">
             <input
               class="input100"
               type="password"
               name="password"
               placeholder="Password"
+              id="password_input"
             />
             <span class="focus-input100"></span>
           </div>
+          
+          <div class="container-login100-form-btn">
+            <input class="m-t-6" type="checkbox" onclick="showPassword()"><span class="m-l-3 txt1">Show Password</span>
+          </div>
 
+          <div class="p-b-30"></div>
+          
           <div class="container-login100-form-btn">
             <button class="login100-form-btn">Login</button>
           </div>
