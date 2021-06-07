@@ -1,95 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Expenses Tracker</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/bootstrap/css/bootstrap.min.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="fonts/iconic/css/material-design-iconic-font.min.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/css-hamburgers/hamburgers.min.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/animsition/css/animsition.min.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/select2/select2.min.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/daterangepicker/daterangepicker.css"
+    />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/util.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
     <!--===============================================================================================-->
-</head>
+  </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Expenses Tracker Trial</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Expenses Tracker" property="og:title" />
+    <meta content="Track Your Expenses" property="og:description" />
+    <link
+      rel="icon"
+      href="http://i11.photobucket.com/albums/a168/evelynregly/minigifs/mini126.gif"
+    />
+    <title>Expenses Tracker</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<body>
-    <div class="container-login100" style="background-image: url('images/japan.png');">
-        <div class="wrap-login200">
-            <span class="login100-form-title p-b-37" style="margin-top:50px;">
-                ADD EXPENSE
-               </span>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <form action="/add/<%= data.uuid %>" method="POST" id="add">
-                        <div class="form-group row">
-                            <label for="exampleInputEmail1" class="login100-form-header">Expense Name: </label>
-                            <input type="text" name="expense_name" class="form-control" id="expense_name" aria-describedby="emailHelp" placeholder="Enter Expense Name" required>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputEmail1" class="login100-form-header">Expense Amount: </label>
-                            <input type="number" name="expense_amount" class="form-control" id="expense_amount" placeholder="Enter Expense Amount" min="0.01" step="0.01" required>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputEmail1" class="login100-form-header">Expense Category: </label>
-                            <select class="form-control" id="exampleFormControlSelect1" name="expense_category">
-                                <option>Food and Beverage</option>
-                                <option>Education</option>
-                                <option>Home</option>
-                                <option>Transportation</option>
-                                <option>Miscellaneous</option>
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputEmail1" class="login100-form-header">  Expense Date: </label>
-                            <div class="col-10">
-                                <input class="form-control" type="date" id="example-date-input" name="expense_date" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="exampleInputEmail1" class="login100-form-header">Expense Note: </label>
-                            <textarea class="form-control" form="add" name="expense_note" id="exampleFormControlTextarea1" rows="5"></textarea>
-                        </div>
-                        <div class="container-login100-form-btn">
-                            <button type="submit" class="login100-form-btn">
-                              Submit
-                            </button>
-                        </div>
-                        <br>
-                        <div class="container-login100-form-btn">
-                            <a href="/home" class="loginnow100-form-btn">
-                              Back
-                            </a>
-                        </div>
-                        <br>
-                    </form>
+  <body>
+    <div
+      class="container-login100"
+      style="background-image: url('images/japan.png')"
+    >
+      <div class="wrap-login200">
+        <span class="login100-form-title p-b-37" style="margin-top: 50px">
+          ADD EXPENSE
+        </span>
+        <div class="container">
+          <div class="row justify-content-center">
+            <form action="/add/<%= data.uuid %>" method="POST" id="add">
+              <div class="form-group row">
+                <label for="exampleInputEmail1" class="login100-form-header"
+                  >Expense Name:
+                </label>
+                <input
+                  type="text"
+                  name="expense_name"
+                  class="form-control"
+                  id="expense_name"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter Expense Name"
+                  required
+                />
+              </div>
+              <div class="form-group row">
+                <label for="exampleInputEmail1" class="login100-form-header"
+                  >Expense Amount:
+                </label>
+                <input
+                  type="number"
+                  name="expense_amount"
+                  class="form-control"
+                  id="expense_amount"
+                  placeholder="Enter Expense Amount"
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div class="form-group row">
+                <label for="exampleInputEmail1" class="login100-form-header"
+                  >Expense Category:
+                </label>
+                <select
+                  class="form-control"
+                  id="exampleFormControlSelect1"
+                  name="expense_category"
+                >
+                  <option>Food and Beverage</option>
+                  <option>Education</option>
+                  <option>Home</option>
+                  <option>Transportation</option>
+                  <option>Miscellaneous</option>
+                </select>
+              </div>
+              <div class="form-group row">
+                <label for="exampleInputEmail1" class="login100-form-header">
+                  Expense Date:
+                </label>
+                <div class="col-10">
+                  <input
+                    class="form-control"
+                    type="date"
+                    id="example-date-input"
+                    name="expense_date"
+                    required
+                  />
                 </div>
-            </div>
+              </div>
+              <div class="form-group row">
+                <label for="exampleInputEmail1" class="login100-form-header"
+                  >Expense Note:
+                </label>
+                <textarea
+                  class="form-control"
+                  form="add"
+                  name="expense_note"
+                  id="exampleFormControlTextarea1"
+                  rows="5"
+                ></textarea>
+              </div>
+              <div class="container-login100-form-btn">
+                <button type="submit" class="login100-form-btn">Submit</button>
+              </div>
+              <br />
+              <div class="container-login100-form-btn">
+                <a href="/home" class="loginnow100-form-btn"> Back </a>
+              </div>
+              <br />
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>

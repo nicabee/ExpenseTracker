@@ -32,6 +32,9 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Expenses Tracker" property="og:title"/>
+    <meta content="Track Your Expenses" property="og:description"/>
+    <link rel="icon" href="http://i11.photobucket.com/albums/a168/evelynregly/minigifs/mini126.gif">
     <title>Expenses Tracker Trial</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
@@ -44,7 +47,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
             <div class="collapse navbar-collapse" id="navbarColor02">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link active" href="/home">Home
             </a>
@@ -55,11 +58,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/expensesHistory/<%= data.uuid %>/<%= data.username %>">Expenses History</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout"">Logout</a>
-                    </li>
-                    
                 </ul>
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item" style="float:right;">
+                        <a class="nav-link" href="/logout" >Logout</a>
+                    </li>
+                </ul>
+               
                 
             </div>
         </div>
