@@ -47,6 +47,6 @@ nodemon app.js
 - Set available balance to be spent
 - See your expenses history including those that were deleted
 
-## Project Status
+## Demo
 
-Development ongoing!
+Refer to this [video](https://www.youtube.com/watch?v=0BpeiCQmfb4&feature=youtu.be "Expense Tracker Demo Vid") for a sample demo.
