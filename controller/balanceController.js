@@ -15,8 +15,6 @@ exports.showEditBalance = async (req, res) => {
         res.render("setBalance.ejs", {
           data: user,
         });
-      } else {
-        console.log("No records found!");
       }
     });
 };
@@ -43,8 +41,6 @@ exports.editBalance = async (req, res) => {
           })
           .then((user3) => {
             if (user3) {
-              console.log("expenses found");
-
               expense.model
                 .findAll({
                   where: {

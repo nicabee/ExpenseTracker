@@ -1,6 +1,5 @@
 const { response } = require("express");
 const expense = require("../models/expense");
-var user2;
 const instance = require("../connection");
 
 exports.createExpense = async (req, res) => {
@@ -24,7 +23,7 @@ exports.createExpense = async (req, res) => {
         /**
          * * remove console log
          */
-       
+
         /**
          * * Finds all the expenses of the user to be loaded when
          * * redirected back to home
@@ -42,7 +41,6 @@ exports.createExpense = async (req, res) => {
                * * will also be obtained so that the updated
                * * total amount will also be rendered in /home
                */
-           
 
               expense.model
                 .findAll({
@@ -69,8 +67,6 @@ exports.createExpense = async (req, res) => {
                     req.session.expense1 = user2;
                     req.session.totalAmt = totAmt;
                     res.redirect("/home");
-                  } else {
-                    console.log("No amt");
                   }
                 });
             }
@@ -102,8 +98,6 @@ exports.showEditPage = async (req, res) => {
           expenseDate: user.expense_date,
           expenseNote: user.expense_note,
         });
-      } else {
-        console.log("No records found!");
       }
     });
 };
@@ -136,7 +130,6 @@ exports.UpdateExpense = async (req, res) => {
          * * All expenses for that user's uuid will be collected
          * * When redirected to /home, expenses list is updated
          */
-        console.log("Expense Updated");
         expense.model
           .findAll({
             where: {
@@ -145,7 +138,6 @@ exports.UpdateExpense = async (req, res) => {
           })
           .then((user2) => {
             if (user2) {
-              console.log("expenses found");
               /**
                * * Get the sum of all expenses so that
                * * total expenses rendered will also be updated
@@ -348,7 +340,6 @@ exports.sortByCategory = async (req, res) => {
                 req.session.expense1 = expenseNotExists;
                 req.session.returnmsg = "No records found!";
                 res.redirect("/home");
-                console.log("No records found!");
               }
             });
         }

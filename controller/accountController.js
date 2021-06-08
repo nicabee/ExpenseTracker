@@ -152,7 +152,7 @@ exports.createAccount = async (req, res) => {
                   })
                   .then((user) => {
                     /**
-                     *  ! to be erased
+                     *  * create a new row for the new used in the balances table
                      */
                     balance.model
                       .create({

@@ -94,8 +94,6 @@ exports.resetPassword = async (req, res) => {
             });
           }
         });
-      } else {
-        console.log("User not found!");
       }
     });
 };
@@ -147,7 +145,6 @@ exports.editProfile = async (req, res) => {
           /**
            * * if the user exists, load its expenses too
            */
-          console.log("Username exists!");
           expense.model
             .findAll({
               where: {
