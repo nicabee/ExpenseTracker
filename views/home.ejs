@@ -61,7 +61,7 @@
                 </ul>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item" style="float:right;">
-                        <a class="nav-link" href="/logout" >Logout</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 </ul>
                
@@ -98,23 +98,25 @@
                 </h5>
         <% }%>
           <h3 style="margin-top:20px;">Total Expenses: ₱<%= totalExpenses[0].total_amount %></h3>
-              <h3 style="margin-top:10px;">Available balance: ₱<%= balance.totalAvailBalance %></h3>
-              <% if(totalExpenses[0].total_amount >= balance.totalAvailBalance){ %>
-                <p class="spendmore">You have spent more than the amount you set! Spend less!</p>
+              <h3 style="margin-top:10px;">Expense Limit: ₱<%= balance.totalAvailBalance %></h3>              
+                <% if(totalExpenses[0].total_amount > balance.totalAvailBalance){ %>
+                <p class="spendmore">Oops! You have spent more than the amount you set. Lessen your spending now.</p>
+                <%} else if(totalExpenses[0].total_amount == balance.totalAvailBalance){ %>
+                <p class="spendlimit">You have reached your limit! Be careful.</p>
                 <% } else { %>
                 <p class="spendless">You have spent less than the amount you set. Spend wisely!</p>
                 <% } %>
               <div id="buttoncontainer">
                   <div class="row">
                           <div class="container-login100-form-btn" id="addExpenseButton">
-                              <a href="/add" class="loginnow100-form-btn">
+                              <a href="/add" class="loginnow100-form-btn" style="text-decoration: none; color: black;">
                                   Add New Expense
                               </a>
                           </div>
                           <br><br>
                           <div class="container-login100-form-btn" id="setBalanceButton">
-                              <a href="/setBalance/<%= data.uuid %>" class="loginnow100-form-btn">
-                                  Edit Available Balance
+                              <a href="/setBalance/<%= data.uuid %>" class="loginnow100-form-btn" style="text-decoration: none; color: black;">
+                                  Change expense limit
                               </a>
                           </div>
                       <br><br>

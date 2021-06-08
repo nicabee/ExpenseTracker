@@ -67,6 +67,11 @@ h4,
 h5,
 h6 {
   margin: 0px;
+  font-family: SourceSansPro-Regular;
+}
+
+h1 {
+  font-family: SourceSansPro-Bold;
 }
 
 p {
@@ -152,10 +157,10 @@ iframe {
 [ Utility ]*/
 
 .txt1 {
-  font-family: SourceSansPro-Regular;
+  font-family: SourceSansPro-Bold;
   font-size: 16px;
   line-height: 1.4;
-  color: #999999;
+  color: #A2D5AB;
 }
 
 .txt2 {
@@ -528,6 +533,12 @@ iframe {
 
 .spendless {
   color: lightgreen;
+  font-size: 20px;
+  text-align: center;
+}
+
+.spendlimit {
+  color: yellow;
   font-size: 20px;
   text-align: center;
 }

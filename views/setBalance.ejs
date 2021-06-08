@@ -1,42 +1,118 @@
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Expenses Tracker</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="public/fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="public/fonts/iconic/css/material-design-iconic-font.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css" />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/css-hamburgers/hamburgers.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/animsition/css/animsition.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/select2/select2.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/vendor/daterangepicker/daterangepicker.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/util.css" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/tinychanges.css">
+    <!--===============================================================================================-->
+    
+   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script>
+      function showPassword() {
+        var passwordField = document.getElementById("password_input");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      }
+    </script> 
 
-    <title>To do lizt</title>
-  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   </head>
 
-  <body>
-      <section>
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h1 class="display-4">Set Your Balance</h1>
-            <h4>Fill the form below to add a new item</h4>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Expenses Tracker" property="og:title" />
+    <meta content="Track Your Expenses" property="og:description" />
+    <link
+      rel="icon"
+      href="http://i11.photobucket.com/albums/a168/evelynregly/minigifs/mini126.gif"
+    />
+    <title>Expenses Tracker</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body style="background-image: url('../../images/open.png')">
+    <div class="container-login100">
+      <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
+        <form class="login100-form validate-form" action="/setBalance/<%= data.uuid %>" method="POST">
+          <span class="login100-form-title p-b-37"> Set your new limit! </span>
+          <div class="wrap-input100 m-b-20">
+
+            <input class="input100" type="number" name="availablebalance" id="availablebalance" placeholder="Enter Available Balance" min="0.01" step="0.01" value='<%=data.totalAvailBalance%>' required/>
+            <span class="focus-input100"></span>
           </div>
-        </div>
-        <div class="container">
-          <div class="row justify-content-center">
-            <form action="/setBalance/<%= data.uuid %>" method="POST">
-              
-              <div class="form-group">
-                <label for="exampleInputEmail1">Current Available Balance:</label>
-                <input type="number" name="availablebalance" class="form-control" id="availablebalance" value="<%=data.totalAvailBalance%>" placeholder="Enter Available Balance" min="0.01" step="0.01" required>
-              </div>
-             
-              <center>
-                <input type="hidden" name="uuid" value='<%= data.uuid %>'>
-                <button type="submit" class="btn btn-primary">Add</button>
-                <button type="submit" class="btn btn-secondary"><a href='/home' style="color: white;">Go Back Home</button></a>
-              </center>
-            </div>
-            </form>
+
+          <div class="p-b-30"></div>
+          
+          <div class="container-login100-form-btn">
+            <button class="login100-form-btn" style="font-family: SourceSansPro-Bold;">Change expense limit</button>
           </div>
-        </div>
-        </section>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+
+          <div class="p-t-30 p-b-10"></div>
+
+          <div class="container-login100-form-btn">
+            <button class="loginnow100-form-btn">
+              <a href='/home' style="text-decoration: none; color: black; font-weight: bold; font-family: SourceSansPro-Regular;"> Back to Home </a>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </body>
 </html>
