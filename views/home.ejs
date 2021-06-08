@@ -97,7 +97,12 @@
                     </div>
                 </h5>
         <% }%>
-          <h3 style="margin-top:20px;">Total Expenses: ₱<%= totalExpenses[0].total_amount %></h3>
+          <h3 style="margin-top:20px;">Total Expenses:  <% if(totalExpenses[0].total_amount == null){ %>
+            ₱0
+            <% } else { %>
+                ₱<%= totalExpenses[0].total_amount %></h3>
+                <% } %>
+            
               <h3 style="margin-top:10px;">Expense Limit: ₱<%= balance.totalAvailBalance %></h3>              
                 <% if(totalExpenses[0].total_amount > balance.totalAvailBalance){ %>
                 <p class="spendmore">Oops! You have spent more than the amount you set. Lessen your spending now.</p>

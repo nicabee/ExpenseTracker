@@ -17,6 +17,7 @@ exports.showResetPassword = async (req, res) => {
       if (user) {
         res.render("resetPassword.ejs", {
           username: user.username,
+          uuid: user.uuid,
         });
       }
       /**

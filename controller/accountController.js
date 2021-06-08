@@ -168,6 +168,7 @@ exports.createAccount = async (req, res) => {
               } else {
                 /* returns user to register page */
                 res.render("register.ejs", {
+                  newUser: newUser,
                   errors: "Passwords do not match!",
                 });
               }
