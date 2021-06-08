@@ -111,7 +111,7 @@
                 <% } else { %>
                 <p class="spendless">You have spent less than the amount you set. Spend wisely!</p>
                 <% } %>
-              <div id="buttoncontainer">
+                <div id="buttoncontainer">
                   <div class="row">
                           <div class="container-login100-form-btn" id="addExpenseButton">
                               <a href="/add" class="loginnow100-form-btn" style="text-decoration: none; color: black;">
@@ -128,9 +128,9 @@
                       </div>
                   </div>
                   <form action="/sortByCategory/<%= data.uuid %>" method="POST" id="sortByCategory">
-                      <div class="form-group">
-                          <label for="exampleFormControlSelect1">Expense Category</label>
-                          <select class="form-control" id="exampleFormControlSelect1" name="expense_category">
+                    <label class="login100-form-header" style="color: black;">Expense Category</label>
+                    <div class="wrap-input100">
+                          <select class="input100 wrap-input100" id="exampleFormControlSelect1" name="expense_category">
                               <option value=<%= data.uuid %> >Choose Here</option>
                               <option>Food and Beverage</option>
                               <option>Education</option>
@@ -140,7 +140,7 @@
                           </select>
                       </div>
                       <div class="container-login100-form-btn">
-                        <button type="submit" class="loginnow100-form-btn">
+                        <button type="submit" class="loginnow100-form-btn m-t-15">
                           View
                         </button>
                       </div>
@@ -155,52 +155,47 @@
                           </h5>
                       </center>
                       <% }%>
+                        <div>
                           <% for(i=0;i < expenses.length ; i++) { %>
-                              <table class="table table-striped table-dark">
-                                  <thead>
-                                      <tr>
-                                          <th scope="col">Expense Number</th>
-                                          <th scope="col">Expense Name</th>
-                                          <th scope="col">Expense Amount</th>
-                                          <th scope="col">Expense Category</th>
-                                          <th scope="col">Expense Date</th>
-                                          <th scope="col">Expense Note</th>
-                                          <th scope="col">Edit</th>
-                                          <th scope="col">Delete</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                      <tr>
-                                          <th scope="row">
-                                              <%= i+1 %>
-                                          </th>
-                                          <td>
-                                              <%= expenses[i].expense_name %>
-                                          </td>
-                                          <td>₱
-                                              <%= expenses[i].expense_amount %>
-                                          </td>
-                                          <td>
-                                              <%= expenses[i].expense_category %>
-                                          </td>
-                                          <td>
-                                              <%= expenses[i].expense_date %>
-                                          </td>
-                                          <td>
-                                              <%= expenses[i].expense_note %>
-                                          </td>
-                                          <td>
-                                              <button type="button" class="btn btn-success"><a href="/update?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color:white;">Edit</button>
-                                          </td>
-                                          <td>
-                                              <button type="button" class="btn btn-danger"><a href="/delete?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color: white;">Delete</button>
-                                              </a>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
+                                <div class="card m-5">
+                                    <% if( expenses[i].expense_category == "Food and Beverage") { %>
+                                        <h3 class="card-header" style="background-color: #E77631; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Education") { %>
+                                        <h3 class="card-header" style="background-color: #5C9338; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Home") { %>
+                                        <h3 class="card-header" style="background-color: #33415C; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Transportation") { %>
+                                        <h3 class="card-header" style="background-color: #54214A; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Miscellaneous") { %>
+                                        <h3 class="card-header" style="background-color: #B7472F; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } %>
+                                    <div class="card-body">
+                                        <h4 class="card-title align-content-center"><span style="font-weight: bold;"><%= expenses[i].expense_name %></span></h4>
+                                        <p class="card-text">Amount: <span style="font-weight: bold;">₱<%= expenses[i].expense_amount %></span></p>
+                                        <p class="card-text"><span style="font-weight: bold;">Note:</span> <br> <%= expenses[i].expense_note %></p>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn btn-outline-light m-r-15" style="background-color: #997B66;"><a href="/update?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="text-decoration: none; color: white;">Edit</a></button>
+                                            <button type="button" class="btn  btn-outline-light m-l-15" style="background-color: #BA181B;"><a href="/delete?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="text-decoration: none; color: white;">Delete</a></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <p class="card-text">Date: <span style="font-weight: bold;"><%= expenses[i].expense_date %></span></p>
+                                    </div>
+                                </div>
                               <% } %>
-              </div>
+                        </div>
+                </div>
             </div>
         </div>
     </div>
