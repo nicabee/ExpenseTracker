@@ -158,16 +158,35 @@
                         <div>
                           <% for(i=0;i < expenses.length ; i++) { %>
                                 <div class="card m-5">
-                                    <h3 class="card-header" style="background-color: red; padding-top: 20px; padding-bottom: 20px;">
-                                        <%= expenses[i].expense_category %>
-                                    </h3>
-                                    
+                                    <% if( expenses[i].expense_category == "Food and Beverage") { %>
+                                        <h3 class="card-header" style="background-color: #E77631; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Education") { %>
+                                        <h3 class="card-header" style="background-color: #5C9338; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Home") { %>
+                                        <h3 class="card-header" style="background-color: #33415C; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Transportation") { %>
+                                        <h3 class="card-header" style="background-color: #54214A; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } else if( expenses[i].expense_category == "Miscellaneous") { %>
+                                        <h3 class="card-header" style="background-color: #B7472F; padding-top: 20px; padding-bottom: 20px; color: white;">
+                                            <%= expenses[i].expense_category %>
+                                        </h3>
+                                    <% } %>
                                     <div class="card-body">
                                         <h4 class="card-title align-content-center"><span style="font-weight: bold;"><%= expenses[i].expense_name %></span></h4>
                                         <p class="card-text">Amount: <span style="font-weight: bold;">₱<%= expenses[i].expense_amount %></span></p>
                                         <p class="card-text"><span style="font-weight: bold;">Note:</span> <br> <%= expenses[i].expense_note %></p>
-                                        <button type="button" class="btn btn-success"><a href="/update?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color:white;">Edit</a></button>
-                                        <button type="button" class="btn btn-danger"><a href="/delete?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="color: white;">Delete</a></button>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn btn-outline-light m-r-15" style="background-color: #997B66;"><a href="/update?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="text-decoration: none; color: white;">Edit</a></button>
+                                            <button type="button" class="btn  btn-outline-light m-l-15" style="background-color: #BA181B;"><a href="/delete?id=<%= expenses[i].id %>&user=<%= data.uuid %>" style="text-decoration: none; color: white;">Delete</a></button>
+                                        </div>
                                     </div>
 
                                     <div class="card-footer">
